@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 136 102" width="136" height="102"><title>VV flat</title>
+<defs>
+<filter id="bf" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="5"/></filter>
+<filter id="df" x="-60%" y="-60%" width="220%" height="220%"><feDropShadow dx="-3" dy="5" stdDeviation="5" flood-color="#000" flood-opacity="0.30"/></filter>
+<clipPath id="cf"><path d="M0,0 L16,0 L32,58 L48,0 L64,0 L32,70 Z" transform="translate(6,0) scale(0.84)"/></clipPath>
+</defs>
+<path d="M0,0 L16,0 L32,58 L48,0 L64,0 L32,70 Z" transform="translate(6,0) scale(0.84)" fill="currentColor" fill-opacity=".45"
+      stroke="currentColor" stroke-opacity=".45" stroke-width="2.6" stroke-linejoin="round"/><path d="M0,0 L16,0 L32,58 L48,0 L64,0 L32,70 Z" transform="translate(66,26) scale(1.0)" fill="currentColor" stroke="currentColor"
+      stroke-width="2.6" stroke-linejoin="round" /></svg>

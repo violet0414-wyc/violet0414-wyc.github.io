@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="VV echo monogram — 王雨辰">
+  <g transform="translate(42,40) scale(0.62)" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round" opacity=".5">
+    <polygon points="18,15 34,15 50,84"/>
+    <polygon points="82,15 66,15 50,84"/>
+  </g>
+  <g fill="currentColor">
+    <polygon points="18,15 34,15 50,84"/>
+    <polygon points="82,15 66,15 50,84"/>
+  </g>
+</svg>

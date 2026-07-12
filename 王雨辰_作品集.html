@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>王雨辰 · 作品集 / Portfolio</title>
+<link rel="icon" href="favicon.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+
+<!-- ==================================================================
+     王雨辰 · 作品集 v5（沿用旧版配色与风格，排版加密、内容补齐）
+     导出：Chrome / Edge → 右上角「导出 PDF」→ A4 → 边距「无」→ 勾选「背景图形」
+     ================================================================== -->
+
+<style>
+:root{--ink:#15120C;--ink2:#1C1811;--bone:#F1ECE1;--red:#9E3B30;--red-l:#D06A5A;--fill:#A6382C;--ash:#A79E8E;
+--serif:'Noto Serif SC','Songti SC',serif;--sans:'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;
+--disp:'Fraunces','Noto Serif SC',serif;--mono:'Space Mono',ui-monospace,monospace;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#3a352d;font-family:var(--sans);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+a{color:inherit;text-decoration:none}
+
+.pg{position:relative;width:210mm;height:297mm;margin:14px auto;background:var(--ink);color:var(--bone);
+  overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.35);display:flex;flex-direction:column}
+.pad{padding:16mm 18mm;display:flex;flex-direction:column;flex:1;min-height:0}
+.eb{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--red-l)}
+.mono{font-family:var(--mono)}
+
+/* 图片：解码完整张淡入，缺图不裂 */
+.im{position:relative;overflow:hidden;background:linear-gradient(135deg,#2b2419,#161009);border-radius:4px;
+  border:1px solid rgba(241,236,225,.12)}
+.im img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .5s}
+.im img.ok{opacity:1}
+.im.err::after{content:attr(data-t);position:absolute;left:10px;bottom:8px;font-family:var(--serif);font-weight:700;
+  font-size:13px;color:rgba(241,236,225,.22)}
+.im .cap{position:absolute;left:8px;bottom:6px;z-index:2;font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;
+  color:rgba(241,236,225,.85);background:rgba(13,11,7,.58);padding:2px 6px;border-radius:3px}
+
+/* 页脚：每页都有主页地址 */
+.pgf{display:flex;justify-content:space-between;align-items:baseline;margin-top:auto;padding-top:5mm;
+  border-top:1px solid rgba(241,236,225,.12);font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--ash)}
+.pgf b{color:var(--red-l);font-weight:700}
+.stmt .pgf{border-top-color:rgba(21,18,12,.14);color:#7b7264}
+.stmt .pgf b{color:var(--red)}
+
+/* 封面 */
+.cover .pad{position:relative;z-index:2;justify-content:space-between}
+.cover .art{position:absolute;inset:0;z-index:0}
+.cover .art img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .7s}
+.cover .art img.ok{opacity:.5}
+.cover .scrim{position:absolute;inset:0;z-index:1;background:
+  radial-gradient(70% 50% at 30% 40%,rgba(158,59,48,.22),transparent 70%),
+  linear-gradient(180deg,rgba(21,18,12,.72),rgba(21,18,12,.28) 42%,rgba(21,18,12,.94))}
+.brand{display:flex;align-items:center;gap:10px}
+.brand svg{width:36px;height:36px;color:var(--red-l)}
+.brand .bt{font-family:var(--mono);font-size:9px;letter-spacing:.24em;color:var(--red-l);text-transform:uppercase;line-height:1.5}
+.cover h1{font-family:var(--serif);font-weight:900;font-size:62px;line-height:1;letter-spacing:.03em;color:#fff}
+.cover .role{font-family:var(--serif);font-weight:600;font-size:17px;color:#fff;margin-top:13px;letter-spacing:.04em}
+.cover .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--ash);margin-top:7px}
+.cover .ct{font-family:var(--mono);font-size:10px;letter-spacing:.05em;color:var(--ash);line-height:1.95}
+
+/* 主页大按钮（醒目、可直接点） */
+.site{display:flex;align-items:center;gap:12px;margin-top:16px;padding:11px 16px;border-radius:6px;
+  background:var(--fill);color:#fff;width:max-content;max-width:100%}
+.site .ico{width:22px;height:22px;flex:none;border:1.5px solid rgba(255,255,255,.75);border-radius:50%;
+  display:grid;place-items:center;font-family:var(--mono);font-size:10px}
+.site .tx{line-height:1.25}
+.site .l{font-family:var(--mono);font-size:8px;letter-spacing:.18em;text-transform:uppercase;opacity:.82}
+.site .u{font-family:var(--serif);font-weight:700;font-size:15px;letter-spacing:.02em}
+
+/* 创作观（浅色页） */
+.stmt{background:var(--bone);color:#211c13}
+.stmt .eb{color:var(--red)}
+.stmt .big{font-family:var(--serif);font-weight:700;font-size:27px;line-height:1.55;max-width:21em;margin-top:20px}
+.stmt .big .hl{color:var(--red)}
+.stmt p{font-size:12.5px;color:#3a3226;line-height:1.8;max-width:41em;margin-top:16px}
+.stmt .pull{margin-top:20px;padding:14px 18px;border-left:3px solid var(--red);background:rgba(158,59,48,.06);
+  font-family:var(--serif);font-weight:700;font-size:14px;line-height:1.7;color:#2d251a}
+.stmt .sig{margin-top:20px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--red)}
+.stmt .kv{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:22px;background:rgba(21,18,12,.14);
+  border:1px solid rgba(21,18,12,.14);border-radius:5px;overflow:hidden}
+.stmt .kv div{background:var(--bone);padding:11px 13px}
+.stmt .kv b{display:block;font-family:var(--disp);font-weight:900;font-size:21px;color:#211c13}
+.stmt .kv span{display:block;margin-top:2px;font-family:var(--mono);font-size:7.6px;letter-spacing:.12em;color:#7b7264;text-transform:uppercase}
+
+/* 章节标题 */
+.st{display:flex;align-items:baseline;gap:13px;margin-bottom:6mm;flex:none}
+.st h2{font-family:var(--serif);font-weight:900;font-size:32px;color:#fff;letter-spacing:.02em}
+.st .en{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--red-l);text-transform:uppercase}
+.hero-im{width:100%;aspect-ratio:16/9}
+.hero-im.wide{aspect-ratio:21/9}
+.card .im{aspect-ratio:3/2}
+.meta-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:5mm}
+.meta-row .t{font-family:var(--serif);font-weight:700;font-size:21px;color:#fff}
+.meta-row .r{font-family:var(--mono);font-size:10.5px;color:var(--red-l);letter-spacing:.05em;white-space:nowrap}
+.note{font-size:12.5px;color:#cfc7b8;line-height:1.8;max-width:45em;margin-top:4mm}
+.hon{margin-top:3mm;font-family:var(--mono);font-size:10.5px;color:var(--red-l);letter-spacing:.03em}
+.hon::before{content:"◆ "}
+.lk{display:inline-flex;align-items:center;gap:.5em;margin-top:4mm;font-family:var(--mono);font-size:9.5px;
+  letter-spacing:.06em;color:var(--red-l);border:1px solid rgba(208,106,90,.5);border-radius:3px;padding:5px 10px}
+
+/* 关键帧网格 */
+.kf{display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-top:1mm}
+.kf .im{aspect-ratio:16/10}
+
+/* 状态条 */
+.stat{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:6mm;background:rgba(241,236,225,.12);
+  border:1px solid rgba(241,236,225,.12);border-radius:5px;overflow:hidden}
+.stat .c{background:rgba(28,24,17,.75);padding:4mm}
+.stat .k{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--red-l);margin-bottom:2mm}
+.stat .v{font-family:var(--serif);font-weight:700;font-size:13px;color:#fff}
+.stat .v small{display:block;font-family:var(--mono);font-weight:400;font-size:8px;color:var(--ash);margin-top:2px}
+
+/* 互动结构图 */
+.branch{margin-top:6mm;border:1px solid rgba(241,236,225,.12);border-radius:5px;padding:5mm;background:rgba(28,24,17,.5)}
+.branch .bk{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--red-l);margin-bottom:3mm}
+
+/* 流程 */
+.pipe-pg{background:var(--ink2)}
+.flow{display:flex;flex-direction:column;margin-top:3mm}
+.step{display:grid;grid-template-columns:48px 1fr;gap:15px;padding:4.6mm 0;border-bottom:1px solid rgba(241,236,225,.12)}
+.step:last-child{border-bottom:0}
+.step .no{font-family:var(--disp);font-weight:900;font-size:28px;color:var(--red-l);line-height:1}
+.step h3{font-family:var(--serif);font-weight:700;font-size:17px;color:#fff}
+.step .tool{font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;color:var(--red-l);margin-top:3px}
+.step p{font-size:11.5px;color:#cfc7b8;line-height:1.7;margin-top:4px;max-width:44em}
+
+/* 作品网格 */
+.grid4{display:grid;grid-template-columns:1fr 1fr;gap:6mm 5mm;margin-top:1mm}
+.card{display:flex;flex-direction:column}
+.card .ct{font-family:var(--serif);font-weight:700;font-size:15px;color:#fff;margin-top:3mm;line-height:1.35}
+.card .cr{font-family:var(--mono);font-size:9.5px;color:var(--red-l);margin-top:3px;letter-spacing:.04em}
+.card .ch{font-size:10.5px;color:var(--ash);margin-top:4px;line-height:1.6}
+.card .bl{display:inline-block;margin-top:5px;font-family:var(--mono);font-size:9px;color:var(--red-l);letter-spacing:.03em}
+
+/* 经历页（浅色） */
+.exp{display:grid;grid-template-columns:1.15fr .85fr;gap:9mm;flex:1;min-height:0}
+.stmt h3.sh{font-family:var(--serif);font-weight:900;font-size:16px;color:#211c13;margin-bottom:3mm;
+  padding-bottom:2mm;border-bottom:1px solid rgba(21,18,12,.16)}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:2.6mm 0;
+  border-bottom:1px solid rgba(21,18,12,.08);font-size:11.5px;color:#3a3226}
+.row:last-child{border-bottom:0}
+.row b{font-weight:700;color:#211c13}
+.row small{display:block;color:#7b7264;font-size:10px;margin-top:2px;line-height:1.55}
+.row span{font-family:var(--mono);font-size:9px;color:#7b7264;white-space:nowrap;align-self:center}
+.row em{font-style:normal;color:var(--red)}
+.dbim{margin-top:4mm}
+.dbim .im{aspect-ratio:4/3;border-color:rgba(21,18,12,.14);background:#ded8cc}
+.dbn{font-family:var(--disp);font-weight:900;font-size:52px;color:#211c13;line-height:1;letter-spacing:-.02em}
+.dbl{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:#7b7264;text-transform:uppercase;margin-top:3px}
+.dbp{font-size:11px;color:#3a3226;line-height:1.7;margin-top:3mm}
+
+/* 封底 */
+.back .pad{justify-content:center;align-items:center;text-align:center}
+.back .bigsite{display:flex;flex-direction:column;align-items:center;gap:9px;border:1px solid rgba(208,106,90,.55);
+  border-radius:12px;padding:20px 40px;margin-top:26px;background:rgba(166,56,44,.1)}
+.back .bigsite .l{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--red-l)}
+.back .bigsite .u{font-family:var(--serif);font-weight:900;font-size:25px;color:#fff;letter-spacing:.02em}
+.back .cs{font-family:var(--mono);font-size:10.5px;color:var(--ash);letter-spacing:.05em;line-height:2.1;margin-top:24px}
+.back .q{font-family:var(--serif);font-weight:700;font-size:15px;color:var(--red-l);margin-top:26px;max-width:26em;line-height:1.7}
+
+/* 屏幕工具条 */
+.bar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:12px;padding:10px 18px;
+  background:rgba(21,18,12,.88);backdrop-filter:blur(12px)}
+.bar .tip{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:#8f8779}
+.bar .tip.ok{color:#8FCBA6}
+.bar .sp{margin-left:auto}
+.bar a{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:#15120C;background:#F1ECE1;border-radius:999px;padding:8px 15px;text-transform:uppercase}
+.stage{padding-top:52px;padding-bottom:20px}
+
+@media print{
+  @page{size:A4;margin:0}
+  body{background:#fff}
+  .bar{display:none!important}.stage{padding:0}
+  .pg{margin:0;box-shadow:none;break-after:page;page-break-after:always}
+  .pg:last-child{break-after:auto;page-break-after:auto}
+  .im img{opacity:1!important}
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <span class="tip" id="tip">图片加载中…</span>
+  <span class="sp"></span>
+  <a href="#" id="pr">导出 PDF · Ctrl / ⌘ + P</a>
+</div>
+
+<div class="stage">
+
+<!-- ============ 1 封面 ============ -->
+<section class="pg cover">
+  <div class="art"><img data-src="最后一面_封面.jpg|最后一面_封面.png|可选插图.jpg" alt=""/></div>
+  <div class="scrim"></div>
+  <div class="pad">
+    <div class="brand">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <g transform="translate(42,40) scale(0.62)" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round" opacity=".5"><polygon points="18,15 34,15 50,84"/><polygon points="82,15 66,15 50,84"/></g>
+        <g fill="currentColor"><polygon points="18,15 34,15 50,84"/><polygon points="82,15 66,15 50,84"/></g>
+      </svg>
+      <div class="bt">VV<br/>WANG YUCHEN</div>
+    </div>
+    <div>
+      <div class="eb">Portfolio · 作品集 · 2026</div>
+      <h1 style="margin-top:11px">王雨辰</h1>
+      <div class="role">影视编导 × AIGC 内容创作者</div>
+      <div class="tag">AI 漫剧 / 短剧编导 · 短视频编导 · 内容策划 · 影视剪辑</div>
+      <a class="site" href="https://violet0414-wyc.github.io/" target="_blank" rel="noopener">
+        <span class="ico">↗</span>
+        <span class="tx"><span class="l">点这里看全部视频 · Watch everything here</span>
+        <span class="u">violet0414-wyc.github.io</span></span>
+      </a>
+    </div>
+    <div class="ct">浙江大学 · 汉语言文学（影视与动漫编导方向）本科在读<br/>
+      13579731903 · wyc65177971135@gmail.com · 浙江 杭州<br/>
+      B站 space.bilibili.com/334158486 · 豆瓣观影 1044 部</div>
+  </div>
+</section>
+
+<!-- ============ 2 创作观 ============ -->
+<section class="pg stmt"><div class="pad">
+  <div class="eb">Director's Note · 创作观</div>
+  <div class="big">我想讲基于现实的故事，主角永远是人。不要平铺直叙的矫情，要大胆、有张力、抓得住人——在 AI 时代，特效已不再重要，从古至今，最重要的始终是<span class="hl">故事</span>与<span class="hl">人性</span>。</div>
+
+  <p>好的书和影视作品对我来说不是消遣，是<b>养料</b>。别人看完一部电影说「好看」或「一般」，我的感受是——以故事为载体，又活了一次。重看的时候我看的已经不是情节，而是它的骨头：这段情绪为什么在这里出现，这个转折为什么有力量，这首配乐为什么在这一刻进来是对的。这是导演的观看方式，不是观众的。</p>
+
+  <div class="pull">1044 部观影不是一个数字勋章，它是一套坐标系。<br/>它让我知道：军训片不该用又红又正的旋律，应该用电子乐。<br/>——所以《瞬》就是那么剪的。</div>
+
+  <p>我一直不太会说话，开口时总觉得说出去的只有感受到的一半。后来我明白了：我的第一语言不是口语，是<b>视听语言</b>——时间轴、画面、声音、节奏和情绪在脑子里同时运转，不需要翻译。这不是缺陷，这是一个方向。</p>
+
+  <p>文学训练给了我对叙事与情感的敏感，生成式工具让这些感觉能被快速做出来。我独立完成 AI 漫剧从剧本、分镜、生图到剪辑、配音的全流程，也在校内外剧组与主流媒体一线做剪辑、摄影与内容策划。我关心的始终是同一件事——<b>技术，怎样让一个故事更动人</b>。</p>
+
+  <div class="kv">
+    <div><b>1044</b><span>部观影 · 审美坐标系</span></div>
+    <div><b>2</b><span>部 AI 原创短片 · 全流程独立完成</span></div>
+    <div><b>6</b><span>步链路 · 剧本 → 成片</span></div>
+  </div>
+  <div class="sig">— 王雨辰 · VV</div>
+
+  <div class="pgf"><span>violet0414-wyc.github.io</span><span><b>02</b> / 10</span></div>
+</div></section>
+
+<!-- ============ 3 最后一面 ============ -->
+<section class="pg"><div class="pad">
+  <div class="st"><h2>最后一面</h2><div class="en">In Production · 2026 · Director / Writer / Full Pipeline</div></div>
+  <div class="kf">
+    <div class="im" data-src="shot10.1.png" data-t="shot 10.1"><img alt=""/><span class="cap">shot 10.1</span></div>
+    <div class="im" data-src="shot11.3.png" data-t="shot 11.3"><img alt=""/><span class="cap">shot 11.3</span></div>
+    <div class="im" data-src="shot13.8.png" data-t="shot 13.8"><img alt=""/><span class="cap">shot 13.8</span></div>
+    <div class="im" data-src="参考图终.png" data-t="character ref"><img alt=""/><span class="cap">character ref</span></div>
+  </div>
+  <div class="note" style="margin-top:6mm">一部关于「告别」的 AI 原创动画短片。从一帧关键帧开始，用生成式工具重建记忆里的光——我想知道，AI 能不能讲好一个需要眼泪的故事。剧本、AI 生图（ChatGPT / GPT Image 为主，Midjourney 辅助）、分镜合成、配音配乐与后期剪辑（即梦 · 可灵图生视频），全部独立完成。</div>
+  <div class="note">分镜与角色多视图已全部定稿，人物一致性靠参考图 + 统一画风后缀锁死；镜头动态一律走<b style="color:#fff">图生视频 / 首尾帧</b>而非文生视频——叙事必须留在我手里，模型只负责镜头内的运动。</div>
+  <div class="hon">探索 AI 生成工具在动画叙事中的情感表达边界</div>
+  <div class="stat">
+    <div class="c"><div class="k">剧本 / 分镜</div><div class="v">已定稿<small>Script &amp; Boards</small></div></div>
+    <div class="c"><div class="k">角色多视图</div><div class="v">已定稿<small>Character Sheets</small></div></div>
+    <div class="c"><div class="k">关键帧</div><div class="v">生成中<small>Keyframes</small></div></div>
+    <div class="c"><div class="k">镜头动态</div><div class="v">生成中<small>即梦 · 可灵</small></div></div>
+  </div>
+  <div class="pgf"><span>violet0414-wyc.github.io</span><span><b>03</b> / 10</span></div>
+</div></section>
+
+<!-- ============ 4 AI 漫剧全流程 ============ -->
+<section class="pg pipe-pg"><div class="pad">
+  <div class="st"><h2>AI 漫剧全流程</h2><div class="en">Solo AIGC Pipeline</div></div>
+  <div class="note" style="margin-top:0">一个人，从一句话到一部成片。这是我做 AI 漫剧 / 短剧最核心的能力——不是会用某个工具，而是把整条链路跑通，并在每一步守住「故事」与「角色一致性」。</div>
+  <div class="flow">
+    <div class="step"><div class="no">01</div><div><h3>编剧 · 剧本</h3><div class="tool">ChatGPT · 文学功底</div><p>确立命题与情感内核，写成有分支、有张力的剧本；叙事框架先行，工具后进场。</p></div></div>
+    <div class="step"><div class="no">02</div><div><h3>分镜 · 设定</h3><div class="tool">分镜执行表 · 角色多视图</div><p>逐镜头拆解景别、运镜与字幕；建立角色多视图参考，锁死人设与画风。</p></div></div>
+    <div class="step"><div class="no">03</div><div><h3>生图 · 关键帧</h3><div class="tool">GPT Image · Midjourney</div><p>以统一画风后缀 + 参考图生成关键帧，保证跨镜头的人物与色调一致。</p></div></div>
+    <div class="step"><div class="no">04</div><div><h3>AI 视频</h3><div class="tool">即梦 · 可灵 · 图生视频 / 首尾帧</div><p>用图生视频而非文生视频，由关键帧驱动动态；控制运动幅度防止画面崩坏。</p></div></div>
+    <div class="step"><div class="no">05</div><div><h3>配音 · 配乐</h3><div class="tool">Score · Voice</div><p>为情绪铺陈声音层次，让画面「有温度」——声音到位，画面才立得住。</p></div></div>
+    <div class="step"><div class="no">06</div><div><h3>剪辑 · 合成</h3><div class="tool">Premiere Pro · DaVinci Resolve</div><p>节奏、调色与合成，把碎片拼成完整叙事；互动分支结构在这一步落地。</p></div></div>
+  </div>
+  <div class="hon" style="margin-top:5mm">工具会一直换，判断不会。链路跑得通，才谈得上风格。</div>
+  <div class="pgf"><span>violet0414-wyc.github.io</span><span><b>04</b> / 10</span></div>
+</div></section>
+
+<!-- ============ 5 重生之大一新生 ============ -->
+<section class="pg"><div class="pad">
+  <div class="st"><h2>重生之大一新生</h2><div class="en">AI Interactive Short · 2025</div></div>
+  <div class="im hero-im" data-src="重生_封面.jpg" data-t="重生之大一新生"><img alt=""/></div>
+  <div class="meta-row"><div class="t">系统没教我的最优解</div><div class="r">导演 · 编剧 · 剪辑</div></div>
+  <div class="note">独立完成故事策划、剧本到 AIGC 视频生成的全流程，设计<b style="color:#fff">多结局互动叙事结构</b>。以「大一新生信息差」为核心命题，把校园真实痛点写成可选择的分支剧情——观众不是在看别人的故事，是在替自己做一次选择。</div>
+  <div class="note">这是我第一次把 AIGC 当成「镜头语言」而不是「省事的工具」：分支越多，越考验剧本的骨架是否结实。形式创新只有在故事立得住的时候才成立。</div>
+  <div class="branch">
+    <div class="bk">多结局互动叙事结构 / Branching Structure</div>
+    <svg viewBox="0 0 640 130" style="width:100%;height:auto" aria-hidden="true">
+      <g fill="none" stroke="#D06A5A" stroke-width="1.2" opacity=".55">
+        <path d="M96 65 H176"/><path d="M232 65 C270 65 270 28 308 28"/><path d="M232 65 C270 65 270 102 308 102"/>
+        <path d="M372 28 C410 28 410 14 448 14"/><path d="M372 28 C410 28 410 44 448 44"/>
+        <path d="M372 102 C410 102 410 86 448 86"/><path d="M372 102 C410 102 410 118 448 118"/>
+        <path d="M512 14 H556"/><path d="M512 44 H556"/><path d="M512 86 H556"/><path d="M512 118 H556"/>
+      </g>
+      <g font-family="'Space Mono',monospace" font-size="9.5" letter-spacing="1">
+        <rect x="8" y="52" width="88" height="26" rx="3" fill="#A6382C"/><text x="52" y="69" fill="#fff" text-anchor="middle">开场 · 命题</text>
+        <rect x="176" y="52" width="56" height="26" rx="3" fill="none" stroke="#D06A5A"/><text x="204" y="69" fill="#D06A5A" text-anchor="middle">选择 1</text>
+        <rect x="308" y="15" width="64" height="26" rx="3" fill="none" stroke="#D06A5A"/><text x="340" y="32" fill="#D06A5A" text-anchor="middle">选择 2A</text>
+        <rect x="308" y="89" width="64" height="26" rx="3" fill="none" stroke="#D06A5A"/><text x="340" y="106" fill="#D06A5A" text-anchor="middle">选择 2B</text>
+        <rect x="448" y="2" width="64" height="24" rx="3" fill="rgba(241,236,225,.10)"/><text x="480" y="18" fill="#F1ECE1" text-anchor="middle">结局 ①</text>
+        <rect x="448" y="32" width="64" height="24" rx="3" fill="rgba(241,236,225,.10)"/><text x="480" y="48" fill="#F1ECE1" text-anchor="middle">结局 ②</text>
+        <rect x="448" y="74" width="64" height="24" rx="3" fill="rgba(241,236,225,.10)"/><text x="480" y="90" fill="#F1ECE1" text-anchor="middle">结局 ③</text>
+        <rect x="448" y="106" width="64" height="24" rx="3" fill="rgba(241,236,225,.10)"/><text x="480" y="122" fill="#F1ECE1" text-anchor="middle">结局 ④</text>
+        <text x="600" y="18" fill="#A79E8E" text-anchor="middle">最优解</text>
+        <text x="600" y="48" fill="#A79E8E" text-anchor="middle">次优</text>
+        <text x="600" y="90" fill="#A79E8E" text-anchor="middle">踩坑</text>
+        <text x="600" y="122" fill="#A79E8E" text-anchor="middle">重开</text>
+      </g>
+    </svg>
+  </div>
+  <a class="lk" href="https://www.bilibili.com/video/BV1fJv6BeEXS/" target="_blank" rel="noopener">▶ B站观看 · bilibili.com/video/BV1fJv6BeEXS</a>
+  <div class="pgf"><span>violet0414-wyc.github.io</span><span><b>05</b> / 10</span></div>
+</div></section>
+
+<!-- ============ 6 瞬 · 交错 ============ -->
+<section class="pg"><div class="pad">
+  <div class="st"><h2>瞬 · 交错</h2><div class="en">Selected Works · 2025</div></div>
+  <div class="im hero-im wide" data-src="瞬_封面.jpg" data-t="军训大片《瞬》"><img alt=""/></div>
+  <div class="meta-row"><div class="t">军训大片《瞬》</div><div class="r">剪辑</div></div>
+  <div class="note">把控整体节奏与叙事框架，用<b style="color:#fff">电子乐</b>替代常规激昂配乐——军训片不该是又红又正的旋律，它该有属于十八岁的心跳。</div>
+  <div class="hon">B站播放量超前三年同类作品 · 入选新生军训总结大会现场大屏放映</div>
+  <a class="lk" href="https://www.bilibili.com/video/BV1McHhzzEFA/" target="_blank" rel="noopener">▶ B站观看</a>
+
+  <div class="im hero-im wide" style="margin-top:7mm" data-src="交错_封面.jpg" data-t="剧情短片《交错》"><img alt=""/></div>
+  <div class="meta-row"><div class="t">剧情短片《交错》（一镜到底）</div><div class="r">服装助理</div></div>
+  <div class="note">学生剧组的一次一镜到底实战。担任服装助理，负责现场服装与造型协助，完整跟完了一条长镜头从排练到实拍的调度过程。</div>
+  <a class="lk" href="https://www.bilibili.com/video/BV1s7aHzPEhM/" target="_blank" rel="noopener">▶ B站观看</a>
+  <div class="pgf"><span>violet0414-wyc.github.io</span><span><b>06</b> / 10</span></div>
+</div></section>
+
+<!-- ============ 7 影像作品 ============ -->
+<section class="pg"><div class="pad">
+  <div class="st"><h2>影像作品</h2><div class="en">Selected Works · 剪辑 / 摄影 / 调色</div></div>
+  <div class="grid4">
+    <div class="card">
+      <div class="im" data-src="引擎_封面.jpg" data-t="引擎上的求是魂"><img alt=""/></div>
+      <div class="ct">纪录片《引擎上的求是魂》</div><div class="cr">剪辑 / 摄影 · 2025</div>
+      <div class="ch">启真车队纪录片项目组，独立完成拍摄与剪辑。<br/>◆「好看浙大」短视频大赛优秀奖</div>
+      <a class="bl" href="https://www.bilibili.com/video/BV1qoM76iEdz/" target="_blank" rel="noopener">▶ B站观看</a>
+    </div>
+    <div class="card">
+      <div class="im" data-src="你忘了_封面.jpg" data-t="你忘了我的尸体"><img alt=""/></div>
+      <div class="ct">微电影《你忘了我的尸体》</div><div class="cr">摄影 / 音乐 / 调色 · 2024</div>
+      <div class="ch">剧情短片实战，负责整体视觉与听觉的情绪铺陈。<br/>◆ 部门「潮斯卡」四项奖杯</div>
+      <a class="bl" href="https://www.bilibili.com/video/BV1bVME6REQ8/" target="_blank" rel="noopener">▶ B站观看</a>
+    </div>
+    <div class="card">
+      <div class="im" data-src="紫港_封面.jpg" data-t="紫港叠影"><img alt=""/></div>
+      <div class="ct">短视频《紫港叠影》</div><div class="cr">剪辑 / 摄影 · 2025</div>
+      <div class="ch">以叠影结构处理时间与空间的重合。<br/>◆「风采浙大」优秀奖</div>
+      <a class="bl" href="https://www.bilibili.com/video/BV1ZoM76iER8/" target="_blank" rel="noopener">▶ B站观看</a>
+    </div>
+    <div class="card">
+      <div class="im" data-src="迎新_封面.jpg" data-t="迎新宣传片"><img alt=""/></div>
+      <div class="ct">迎新宣传片</div><div class="cr">剪辑 · 后期 · 2025</div>
+      <div class="ch">校级官方发布。两分钟内让没来过的人想来——靠人的脸和动作串场，不靠旁白解释。</div>
+      <a class="bl" href="https://violet0414-wyc.github.io/#works" target="_blank" rel="noopener">▶ 在个人主页直接播放</a>
+    </div>
+  </div>
+  <div class="note" style="margin-top:6mm">以上作品均可在个人主页内直接播放（点封面即播），无需跳转。</div>
+  <div class="pgf"><span>violet0414-wyc.github.io</span><span><b>07</b> / 10</span></div>
+</div></section>
+
+<!-- ============ 8 剪辑 / 混剪 ============ -->
+<section class="pg pipe-pg"><div class="pad">
+  <div class="st"><h2>剪辑 / 混剪</h2><div class="en">Editing Reel · 独立剪辑</div></div>
+  <div class="note" style="margin-top:0">同一批素材能剪出两种叙事——这是我最想证明的事。潮汐音乐节的高燃混剪和乐队专访 VCR 用的是同一现场：一个把节奏推到顶，一个把「燃」拿掉、只留呼吸和沉默。</div>
+  <div class="grid4">
+    <div class="card">
+      <div class="im" data-src="潮汐高燃_封面.jpg" data-t="潮汐 · 高燃混剪"><img alt=""/></div>
+      <div class="ct">浙江大学 2025 潮汐音乐节 · 高燃混剪</div><div class="cr">独立剪辑 · 2025</div>
+      <div class="ch">捕捉现场高光，剪点压在鼓点上，把音乐节重新剪成一场视听狂欢。</div>
+      <a class="bl" href="https://www.bilibili.com/video/BV1jFUhBeEHH/" target="_blank" rel="noopener">▶ B站观看</a>
+    </div>
+    <div class="card">
+      <div class="im" data-src="潮汐专访_封面.jpg" data-t="潮汐 · 乐队专访 VCR"><img alt=""/></div>
+      <div class="ct">潮汐音乐节 · 乐队专访 VCR</div><div class="cr">独立剪辑 · 2025</div>
+      <div class="ch">挖掘台前幕后的真实表达，去掉「燃」，人物才立得住。</div>
+      <a class="bl" href="https://www.bilibili.com/video/BV1jFUhBeEpE/" target="_blank" rel="noopener">▶ B站观看</a>
+    </div>
+    <div class="card">
+      <div class="im" data-src="优雅与力量_封面.jpg" data-t="优雅与力量，邪恶与疯狂"><img alt=""/></div>
+      <div class="ct">影视混剪《优雅与力量，邪恶与疯狂》</div><div class="cr">独立剪辑 · 2025</div>
+      <div class="ch">两种质感的对撞：慢速的线条与爆发的疯狂交替，节奏完全建立在速度差上。</div>
+      <a class="bl" href="https://www.bilibili.com/video/BV1ZLUkYkEhZ/" target="_blank" rel="noopener">▶ B站观看</a>
+    </div>
+    <div class="card">
+      <div class="im" data-src="WHYSOSERIOUS_封面.jpg|WHY SO SERIOUS_封面.jpg" data-t="WHY SO SERIOUS"><img alt=""/></div>
+      <div class="ct">影视混剪《WHY SO SERIOUS》</div><div class="cr">独立剪辑 · 2025</div>
+      <div class="ch">音画驱动的实验剪辑：先定声音，再让画面服从声音。</div>
+      <a class="bl" href="https://www.bilibili.com/video/BV1Dh1yY8ELH/" target="_blank" rel="noopener">▶ B站观看</a>
+    </div>
+  </div>
+  <div class="note" style="margin-top:6mm">持续在 B站独立发布影视混剪、运营微信公众号；豆瓣记录观影 1044 部，构建系统的影视审美坐标系。</div>
+  <div class="pgf"><span>violet0414-wyc.github.io</span><span><b>08</b> / 10</span></div>
+</div></section>
+
+<!-- ============ 9 经历 · 荣誉 · 观影 ============ -->
+<section class="pg stmt"><div class="pad">
+  <div class="eb">Experience · Honors · Film Diary</div>
+  <div style="height:6mm"></div>
+  <div class="exp">
+    <div style="display:flex;flex-direction:column;min-height:0">
+      <h3 class="sh">项目与实习 / Experience</h3>
+      <div class="row"><div><b>浙江日报 · 潮新闻视频中心</b> — 实习生<small>一线内容制作，结合时事热点进行短视频策划与剪辑输出。</small></div><span>2026.07—09</span></div>
+      <div class="row"><div><b>浙江大学思政科 · 求是潮视频制作团队</b> — 干事<small>独立剪辑《瞬》《引擎上的求是魂》《你忘了我的尸体》等多个校级优秀作品；独立承接潮汐音乐节混剪与专访 VCR。<em>年度考评优秀。</em></small></div><span>2024.09—今</span></div>
+      <div class="row"><div><b>浙江大学 AI 创研会 · 宣传部</b> — 干事<small>团队 AIGC 实践先行者，探索 AI 生成在视频与文案创作中的落地。</small></div><span>2024.09—今</span></div>
+      <div class="row"><div><b>浙江大学启真车队 · 纪录片项目组</b> — 导演 / 摄影</div><span>2025.03—今</span></div>
+      <div class="row"><div><b>图书馆 IDH 数字人文工坊</b> — 第二期班长</div><span>2024.11—25.09</span></div>
+      <div class="row"><div><b>校宣传部 · 融媒体辅助岗（声像中心）</b> — 干事</div><span>2024.11—今</span></div>
+      <div class="row"><div><b>慈溪横河镇团委 · 实习（青知计划）</b><small><em>所在团队获评「青知计划慈溪实践团优秀团队」。</em></small></div><span>2025 暑期</span></div>
+
+      <h3 class="sh" style="margin-top:6mm">荣誉奖项 / Honors</h3>
+      <div class="row"><div><b>学业优秀标兵 · 三等奖学金</b><small>浙江大学</small></div><span>2024–25</span></div>
+      <div class="row"><div><b>第四届「好看浙大」短视频大赛 · 优秀奖</b><small>《引擎上的求是魂》</small></div><span>2024</span></div>
+      <div class="row"><div><b>「风采浙大」优秀奖 · 部门「潮斯卡」四项奖杯</b><small>《紫港叠影》/《你忘了我的尸体》</small></div><span>2024</span></div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;min-height:0">
+      <h3 class="sh">观影档案 / Film Diary</h3>
+      <div class="dbn">1044</div>
+      <div class="dbl">films watched · 一套审美坐标系</div>
+      <p class="dbp">院线、独立、纪录片……每一部看过的电影，都是一次对眼睛和手的训练。它不是数量的炫耀，是我判断一个故事「什么时候假了、什么时候节奏拖了、什么时候情绪没到位」的依据。</p>
+      <div class="dbim"><div class="im" data-src="豆瓣看过影视1044部截图.png" data-t="豆瓣观影 1044"><img alt=""/></div></div>
+      <p class="dbp" style="margin-top:3mm">豆瓣 · douban.com/people/Violet-4</p>
+      <p class="dbp" style="margin-top:auto;padding-top:4mm;border-top:1px solid rgba(21,18,12,.14)">
+        <b>教育背景</b><br/>浙江大学 · 汉语言文学（影视与动漫编导方向）本科在读，2024.08 — 至今。<br/>
+        代表课程：中国现当代文学史Ⅰ 93 · 大学写作·创意写作 92 · 文学理论 90 · 建筑摄影 90。</p>
+    </div>
+  </div>
+  <div class="pgf"><span>violet0414-wyc.github.io</span><span><b>09</b> / 10</span></div>
+</div></section>
+
+<!-- ============ 10 封底 ============ -->
+<section class="pg back"><div class="pad">
+  <div class="brand" style="justify-content:center">
+    <svg viewBox="0 0 100 100" aria-hidden="true" style="width:60px;height:60px;color:#D06A5A">
+      <g transform="translate(42,40) scale(0.62)" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round" opacity=".5"><polygon points="18,15 34,15 50,84"/><polygon points="82,15 66,15 50,84"/></g>
+      <g fill="currentColor"><polygon points="18,15 34,15 50,84"/><polygon points="82,15 66,15 50,84"/></g>
+    </svg>
+  </div>
+  <a class="bigsite" href="https://violet0414-wyc.github.io/" target="_blank" rel="noopener">
+    <span class="l">完整作品与视频 · 点这里</span>
+    <span class="u">violet0414-wyc.github.io ↗</span>
+  </a>
+  <div class="cs">王雨辰 · VV · WANG YUCHEN<br/>
+    13579731903 · wyc65177971135@gmail.com<br/>
+    B站 space.bilibili.com/334158486 · 豆瓣 douban.com/people/Violet-4</div>
+  <div class="q">「在 AI 时代，特效已不再重要。<br/>从古至今，最重要的始终是故事与人性。」</div>
+</div></section>
+
+</div>
+
+<script>
+const $=(s,p=document)=>p.querySelector(s), $$=(s,p=document)=>[].slice.call(p.querySelectorAll(s));
+$('#pr').onclick = e => { e.preventDefault(); window.print(); };
+
+let total=0, done=0;
+function tick(){ done++; const t=$('#tip');
+  if(done>=total){ t.textContent='✓ 图片就绪 · 可以导出 PDF'; t.classList.add('ok'); }
+  else t.textContent='图片加载中… '+done+'/'+total; }
+function load(box, list){
+  total++;
+  const img=$('img',box), q=list.split('|');
+  (function next(){
+    const s=q.shift();
+    if(!s){ box.classList.add('err'); tick(); return; }
+    const p=new Image(); p.decoding='async';
+    p.onload=()=>{ img.src=s; img.classList.add('ok'); tick(); };
+    p.onerror=next; p.src=s;
+  })();
+}
+$$('.im[data-src]').forEach(b=>load(b, b.dataset.src));
+$$('.cover .art').forEach(b=>load(b, $('img',b).dataset.src));
+
+/* 溢出自检:任何一页装不下都会在工具条上报出来(打印时工具条不出现) */
+function overflowCheck(){
+  const bad=[];
+  $$('.pg').forEach((pg,i)=>{ const pad=$('.pad',pg); if(!pad) return;
+    if(pad.scrollHeight - pad.clientHeight > 4) bad.push(i+1); });
+  if(bad.length){ const t=$('#tip'); t.textContent='⚠ 第 '+bad.join('、')+' 页内容超出，会被裁掉'; t.style.color='#E0A24A'; t.classList.remove('ok'); }
+}
+addEventListener('load', ()=>setTimeout(overflowCheck,900));
+</script>
+</body>
+</html>

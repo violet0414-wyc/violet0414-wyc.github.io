@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>王雨辰 · 影视编导 &amp; AI 内容创作</title>
+<link rel="icon" href="favicon.png"/>
+<link rel="apple-touch-icon" href="logo_appicon_180.png"/>
+<meta name="description" content="王雨辰 —— 浙江大学影视与动漫编导方向在读，影视编导与 AI 内容创作者。用生成式工具，讲有温度的故事。"/>
+<meta property="og:title" content="王雨辰 · 影视编导 &amp; AI 内容创作"/>
+<meta property="og:description" content="用生成式工具，讲有温度的故事。"/>
+<meta property="og:image" content="logo_appicon_1024.png"/>
+<link rel="preload" as="image" href="最后一面_封面.jpg" fetchpriority="high"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+
+<!-- ==================================================================
+     王雨辰 · 个人主页 v5
+     配色与版式沿用你喜欢的旧版；新增：体积光 + 浮尘、名字被光照亮、
+     卡片描边光、对焦环光标、时间码 HUD、快捷键 L 切换中英。
+     要改的东西都在文件最底部的 CONFIG 里。
+     ================================================================== -->
+
+<style>
+:root{--ink:#15120C;--bone:#F1ECE1;--red:#9E3B30;--red-l:#D06A5A;--fill:#A6382C;
+--text-l:#EFEADF;--ash-d:#A79E8E;--text-d:#221d14;--ash:#847B6F;
+--line-d:rgba(241,236,225,.14);--line-l:rgba(21,18,12,.12);
+--serif:'Noto Serif SC','Songti SC',serif;--sans:'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;
+--disp:'Fraunces','Noto Serif SC',serif;--mono:'Space Mono',ui-monospace,monospace;
+--wrap:1160px;--pad:clamp(20px,5vw,48px);--by:clamp(70px,10vw,132px);}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:64px;-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--text-l);line-height:1.72;background:#0d0b07;overflow-x:hidden}
+img{display:block;max-width:100%}a{color:inherit;text-decoration:none}
+::selection{background:var(--red);color:#fff}
+:focus-visible{outline:2px solid var(--red-l);outline-offset:3px}
+
+/* ===== 动态毛玻璃背景（旧版保留） ===== */
+.bg{position:fixed;inset:-15%;z-index:-4;background:#0d0b07;overflow:hidden}
+.bg i{position:absolute;display:block;border-radius:50%;filter:blur(90px);opacity:.55;will-change:transform}
+.bg .b1{width:60vw;height:60vw;left:-8vw;top:-10vh;background:radial-gradient(circle,#9E3B30,transparent 68%);animation:d1 34s ease-in-out infinite}
+.bg .b2{width:52vw;height:52vw;right:-6vw;top:18vh;background:radial-gradient(circle,#b5793a,transparent 66%);opacity:.42;animation:d2 41s ease-in-out infinite}
+.bg .b3{width:46vw;height:46vw;left:22vw;bottom:-14vh;background:radial-gradient(circle,#5b3a2a,transparent 70%);opacity:.5;animation:d3 47s ease-in-out infinite}
+@keyframes d1{50%{transform:translate(14vw,10vh) scale(1.15)}}
+@keyframes d2{50%{transform:translate(-12vw,8vh) scale(1.1)}}
+@keyframes d3{50%{transform:translate(10vw,-8vh) scale(1.2)}}
+
+/* ===== 浮尘（canvas）+ 跟随鼠标的体积光 ===== */
+#fx{position:fixed;inset:0;width:100%;height:100%;z-index:-3;pointer-events:none}
+.spot{position:fixed;left:0;top:0;width:860px;height:860px;margin:-430px 0 0 -430px;z-index:-2;
+  pointer-events:none;opacity:0;transition:opacity .5s;mix-blend-mode:screen;filter:blur(9px);
+  background:radial-gradient(circle,rgba(255,244,232,.285) 0%,rgba(255,244,232,0) 26%),
+             radial-gradient(circle,rgba(208,106,90,.435) 0%,rgba(181,121,58,.165) 40%,rgba(0,0,0,0) 68%)}
+/* 浅色（glass-l）页面上：暗色系专用光源。因为 screen 混合在浅底上会被洗白，
+   这一层画在浅色面板【之上】，用 multiply 把光源处上下文调成暖色，肉眼真能看见。 */
+.spot-l{position:fixed;left:0;top:0;width:760px;height:760px;margin:-380px 0 0 -380px;z-index:46;
+  pointer-events:none;opacity:0;transition:opacity .5s;mix-blend-mode:multiply;filter:blur(13px);
+  background:radial-gradient(circle,rgba(158,59,48,.16) 0%,rgba(158,59,48,0) 34%),
+             radial-gradient(circle,rgba(181,121,58,.10) 0%,rgba(181,121,58,0) 52%,rgba(0,0,0,0) 70%)}
+
+/* ===== 胶片颗粒 + 暗角 ===== */
+.grain{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+animation:gr .8s steps(3) infinite}
+@keyframes gr{0%{transform:translate(0,0)}33%{transform:translate(-1.5%,1%)}66%{transform:translate(1%,-1.5%)}100%{transform:translate(0,0)}}
+.vig{position:fixed;inset:0;z-index:9997;pointer-events:none;
+  background:radial-gradient(130% 100% at 50% 45%,transparent 58%,rgba(9,7,4,.45) 100%)}
+
+/* ===== 对焦环光标 ===== */
+.cur,.cur-d{position:fixed;left:0;top:0;z-index:9999;pointer-events:none;opacity:0;will-change:transform}
+.cur{width:34px;height:34px;margin:-17px 0 0 -17px;border:1px solid rgba(241,236,225,.5);border-radius:50%;
+  transition:width .28s,height .28s,margin .28s,border-color .28s}
+.cur.lnk{width:54px;height:54px;margin:-27px 0 0 -27px;border-color:var(--red-l)}
+.cur-d{width:4px;height:4px;margin:-2px 0 0 -2px;border-radius:50%;background:var(--bone)}
+@media(hover:none),(pointer:coarse){.cur,.cur-d,.spot,.spot-l{display:none}}
+@media(hover:hover) and (pointer:fine){.cur-on,.cur-on *{cursor:none!important}}
+
+/* ===== 时间码 HUD ===== */
+.hud{position:fixed;right:18px;bottom:16px;z-index:9990;display:flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:rgba(241,236,225,.5);pointer-events:none;
+  background:rgba(13,11,7,.34);backdrop-filter:blur(8px);border:1px solid var(--line-d);border-radius:4px;padding:6px 11px}
+.hud .rec{width:6px;height:6px;border-radius:50%;background:var(--red-l);animation:blink 1.6s steps(1) infinite}
+.hud b{color:var(--red-l);font-weight:700}
+@media(max-width:700px){.hud{display:none}}
+.prog{position:fixed;top:0;left:0;height:2px;width:100%;transform:scaleX(0);transform-origin:0 50%;z-index:9996;
+  background:linear-gradient(90deg,var(--red),var(--red-l))}
+
+/* ===== 版式（旧版） ===== */
+.wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--pad)}
+.band{position:relative;padding-block:var(--by)}
+.glass{background:rgba(17,14,9,.58);backdrop-filter:blur(26px) saturate(125%);-webkit-backdrop-filter:blur(26px) saturate(125%);border-block:1px solid var(--line-d)}
+.glass-l{background:rgba(241,236,225,.84);backdrop-filter:blur(26px) saturate(120%);-webkit-backdrop-filter:blur(26px) saturate(120%);color:var(--text-d);border-block:1px solid rgba(21,18,12,.08)}
+.glass-l .eyebrow{color:var(--red)}
+.eyebrow{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;display:inline-flex;align-items:center;gap:.7em;margin-bottom:1.3rem;color:var(--red-l)}
+.eyebrow::before{content:"";width:26px;height:1px;background:currentColor;opacity:.8}
+.h-sec{font-family:var(--serif);font-weight:900;line-height:1.12;font-size:clamp(1.8rem,4.2vw,2.9rem);letter-spacing:.01em}
+.lede{max-width:46ch;margin-top:1rem;font-size:clamp(1rem,1.5vw,1.12rem);opacity:.82}
+.hl{color:var(--red-l)}.glass-l .hl{color:var(--red)}
+
+/* ===== NAV ===== */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad);height:64px;transition:background .4s,border-color .4s;border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(13,11,7,.72);backdrop-filter:blur(14px);border-bottom-color:var(--line-d)}
+.brand{display:flex;align-items:center;gap:.62em;color:#fff}
+.brand svg{width:27px;height:27px;color:var(--red-l)}
+.brand b{font-family:var(--serif);font-weight:700;font-size:1.02rem;letter-spacing:.05em}
+.brand small{font-family:var(--mono);font-size:.56rem;letter-spacing:.24em;color:var(--red-l);text-transform:uppercase}
+.nav__r{display:flex;align-items:center;gap:1.4rem}
+.nav__links{display:flex;align-items:center;gap:1.35rem;list-style:none}
+.nav__links a{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;color:rgba(239,234,223,.72);text-transform:uppercase;transition:color .2s}
+.nav__links a:hover{color:#fff}
+.btnlang,.nav__pdf{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;color:var(--red-l);border:1px solid var(--line-d);background:transparent;padding:.44em .8em;border-radius:3px;cursor:pointer;transition:all .2s;text-transform:uppercase}
+.btnlang:hover,.nav__pdf:hover{background:var(--fill);border-color:var(--fill);color:#fff}
+@media(max-width:900px){.nav__links{display:none}}
+
+/* ===== HERO ===== */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;cursor:default}
+.hero__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;
+  transition:opacity 1.1s ease;transform-origin:50% 50%;will-change:transform}
+.hero__img.ok{opacity:1}
+.hero__scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,11,7,.55) 0%,rgba(13,11,7,.12) 24%,rgba(13,11,7,.46) 62%,rgba(13,11,7,.97) 100%),linear-gradient(90deg,rgba(13,11,7,.62),rgba(13,11,7,0) 58%)}
+.hero__in{position:relative;z-index:2;width:100%;padding-bottom:clamp(48px,8vh,92px)}
+.hero__k{font-family:var(--mono);font-size:.74rem;letter-spacing:.26em;text-transform:uppercase;color:var(--red-l);display:flex;align-items:center;gap:.7em;margin-bottom:1rem}
+.hero__k .dot{width:8px;height:8px;border-radius:50%;background:var(--red-l);animation:blink 1.6s steps(1) infinite}
+@keyframes blink{50%{opacity:.15}}
+/* 名字：本身是暗的，鼠标扫过才被光点亮 */
+.hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(3.2rem,11vw,7.6rem);line-height:.98;letter-spacing:.04em;
+  background:radial-gradient(circle 300px at var(--hx,50%) var(--hy,50%),
+    #FFFFFF 0%,#F6F1E6 16%,#9C9184 52%,#6E655A 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 3px 26px rgba(0,0,0,.55));width:max-content;max-width:100%}
+.hero__role{font-family:var(--serif);font-weight:600;color:#fff;opacity:.95;font-size:clamp(1.02rem,2.3vw,1.5rem);margin-top:.6rem;letter-spacing:.06em}
+.hero__th{max-width:38ch;margin-top:1.2rem;color:rgba(239,234,223,.86);font-size:clamp(.96rem,1.5vw,1.1rem)}
+.hero__tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem}
+.hero__tags span{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;color:rgba(239,234,223,.85);border:1px solid rgba(239,234,223,.28);padding:.4em .8em;border-radius:3px}
+.scroll-cue{position:absolute;right:var(--pad);bottom:26px;z-index:2;display:flex;align-items:center;gap:.6em;font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;color:rgba(239,234,223,.5);text-transform:uppercase}
+.scroll-cue i{display:block;width:1px;height:30px;background:linear-gradient(var(--red-l),transparent);animation:dr 2s infinite}
+@keyframes dr{0%{transform:scaleY(0);transform-origin:0 0}50%{transform:scaleY(1);transform-origin:0 0}51%{transform:scaleY(1);transform-origin:0 100%}100%{transform:scaleY(0);transform-origin:0 100%}}
+@media(max-width:640px){.scroll-cue{display:none}}
+
+/* ===== ABOUT ===== */
+.about__st{font-family:var(--serif);font-weight:700;line-height:1.4;font-size:clamp(1.5rem,3.6vw,2.5rem);max-width:20ch}
+.about__g{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,5vw,4rem);margin-top:clamp(2.2rem,5vw,3.2rem);align-items:start}
+.about__g>*>:first-child{margin-top:0}
+.about__b p{font-size:clamp(1rem,1.4vw,1.08rem);color:#3a3226;max-width:52ch}.about__b p+p{margin-top:1rem}
+.facts{border-top:1px solid var(--line-l)}
+.fact{display:flex;justify-content:space-between;align-items:baseline;gap:1.2rem;padding:.9rem 0;border-bottom:1px solid var(--line-l)}
+.fact .k{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ash);white-space:nowrap}
+.fact .v{font-family:var(--serif);font-weight:700;font-size:.98rem;text-align:right}
+.fact .v em{font-style:normal;color:var(--red)}
+@media(max-width:760px){.about__g{grid-template-columns:1fr}}
+
+/* ===== MANIFESTO ===== */
+.mani{text-align:center}
+.mani__m{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red-l);margin-bottom:1.6rem}
+.mani__q{font-family:var(--serif);font-weight:700;font-size:clamp(1.3rem,3vw,2.1rem);line-height:1.5;max-width:26ch;margin:0 auto;color:#fff}
+.mani__en{max-width:54ch;margin:1.4rem auto 0;color:var(--ash-d);font-size:.98rem}
+.mani__by{margin-top:1.3rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;color:var(--red-l)}
+
+/* ===== SKILLS ===== */
+.sk__g{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:clamp(2rem,4vw,2.8rem);background:var(--line-d);border:1px solid var(--line-d);border-radius:6px;overflow:hidden}
+.sk{position:relative;background:rgba(28,24,17,.7);backdrop-filter:blur(10px);padding:clamp(1.5rem,3vw,2.1rem)}
+.sk .n{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;color:var(--red-l);text-transform:uppercase;margin-bottom:.9rem}
+.sk h3{font-family:var(--serif);font-weight:700;font-size:1.22rem;color:#fff;margin-bottom:.7rem}
+.sk p{color:var(--ash-d);font-size:.94rem}.sk p b{color:var(--text-l);font-weight:500}
+@media(max-width:760px){.sk__g{grid-template-columns:1fr}}
+
+/* ===== 卡片描边光（跟随鼠标） ===== */
+.glow{position:relative}
+.glow::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
+  background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%),rgba(208,106,90,.9),transparent 62%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;
+  opacity:0;transition:opacity .35s;z-index:3}
+.glow:hover::after{opacity:1}
+
+/* ===== 视频 ===== */
+.vwrap{position:relative;aspect-ratio:16/9;border-radius:6px;overflow:hidden;border:1px solid var(--line-l);background:#0f0c08}
+.glass .vwrap,.feat .vwrap{border-color:var(--line-d)}
+.vwrap iframe,.vwrap video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+.vwrap img{width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.05);
+  transition:opacity .8s ease,transform 1.3s cubic-bezier(.16,1,.3,1)}
+.vwrap img.ok{opacity:.92;transform:none}
+.vwrap:hover img.ok{transform:scale(1.08);opacity:1}
+.vwrap.skel::before{content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(100deg,#191309 30%,#241c11 50%,#191309 70%);background-size:220% 100%;animation:sh 1.3s linear infinite}
+@keyframes sh{to{background-position:-220% 0}}
+.vwrap.err{background:linear-gradient(135deg,#2b2419,#161009)}
+.vwrap.err::after{content:attr(data-t);position:absolute;left:14px;bottom:12px;font-family:var(--serif);font-weight:700;font-size:1.05rem;color:rgba(241,236,225,.28)}
+.facade{cursor:pointer}
+.facade .play{position:absolute;left:50%;top:50%;translate:-50% -50%;z-index:2;width:56px;height:56px;border-radius:50%;
+  display:grid;place-items:center;background:rgba(13,11,7,.42);border:1px solid rgba(241,236,225,.42);
+  backdrop-filter:blur(6px);transition:.35s}
+.facade:hover .play{background:var(--bone);border-color:var(--bone);scale:1.07}
+.facade .play::after{content:"";width:0;height:0;border-left:14px solid var(--bone);border-top:9px solid transparent;border-bottom:9px solid transparent;margin-left:4px;transition:border-color .35s}
+.facade:hover .play::after{border-left-color:var(--ink)}
+.lbl{position:absolute;left:12px;bottom:10px;z-index:2;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;color:#fff;background:rgba(13,11,7,.62);padding:.3em .6em;border-radius:3px;text-transform:uppercase;backdrop-filter:blur(4px)}
+.lbl--muted{background:rgba(90,81,69,.72)}
+
+/* ===== AI 作品 ===== */
+.ai__g{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(1.6rem,4vw,3rem);margin-top:clamp(2.2rem,5vw,3rem);align-items:center}
+.ai__t h3{font-family:var(--serif);font-weight:900;font-size:clamp(1.4rem,3vw,1.9rem);line-height:1.3;margin:1rem 0 .4rem}
+.ai__role{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;color:var(--red);margin-bottom:.9rem}
+.ai__t p{color:#453c2e;font-size:.98rem;max-width:46ch}
+.pill{display:inline-flex;align-items:center;gap:.5em;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;padding:.4em .8em;border-radius:3px;text-transform:uppercase}
+.pill-red{background:var(--fill);color:#fff}
+.pill-live{background:transparent;border:1px solid var(--red-l);color:var(--red-l)}
+.pill-live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--red-l);animation:blink 1.6s steps(1) infinite}
+.bili{display:inline-flex;font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;color:var(--red);border:1px solid var(--line-l);padding:.34em .7em;border-radius:3px;transition:.2s;margin-top:.7rem}
+.bili:hover{background:var(--fill);border-color:var(--fill);color:#fff}
+@media(max-width:820px){.ai__g{grid-template-columns:1fr}}
+
+/* ===== 最后一面 ===== */
+.feat__h{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(2rem,5vw,4rem);align-items:end}
+.feat__t{font-family:var(--serif);font-weight:900;color:#fff;font-size:clamp(2.4rem,7vw,4.6rem);line-height:1;letter-spacing:.03em}
+.feat__sub{font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;color:var(--red-l);margin-top:.9rem;text-transform:uppercase}
+.feat__log{color:rgba(239,234,223,.86);font-size:clamp(1rem,1.6vw,1.15rem);line-height:1.72;max-width:44ch}
+.stills{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(.6rem,1.4vw,.9rem);margin-top:clamp(2.2rem,5vw,3.2rem)}
+.still{position:relative;border-radius:5px;overflow:hidden;border:1px solid var(--line-d);background:#1a140c;aspect-ratio:16/10;cursor:zoom-in}
+.still img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s,transform 1.3s cubic-bezier(.16,1,.3,1)}
+.still img.ok{opacity:1}
+.still:hover img.ok{transform:scale(1.09)}
+.still .t{position:absolute;left:8px;bottom:6px;z-index:2;font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;color:rgba(239,234,223,.85);background:rgba(13,11,7,.55);padding:.26em .5em;border-radius:3px;text-transform:uppercase}
+@media(max-width:720px){.feat__h{grid-template-columns:1fr}.stills{grid-template-columns:1fr 1fr}}
+.pipe{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:clamp(2rem,5vw,3rem);background:var(--line-d);border:1px solid var(--line-d);border-radius:6px;overflow:hidden}
+.pipe .c{background:rgba(28,24,17,.7);padding:1.2rem 1.3rem}
+.pipe .k{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--red-l);margin-bottom:.5rem}
+.pipe .v{font-family:var(--serif);font-weight:700;font-size:1rem;color:#fff}
+.pipe .v small{display:block;font-family:var(--mono);font-weight:400;font-size:.64rem;color:var(--ash-d);margin-top:.2rem}
+.cta{margin-top:1.8rem;display:inline-flex;align-items:center;gap:.6em;font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:#fff;border:1px solid var(--line-d);padding:.8em 1.3em;border-radius:3px;transition:.25s}
+.cta:hover{background:var(--fill);border-color:var(--fill)}
+@media(max-width:760px){.pipe{grid-template-columns:1fr 1fr}}
+
+/* ===== 作品网格 ===== */
+.works{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(1.5rem,3vw,2.2rem);margin-top:clamp(2rem,4vw,2.8rem)}
+.works--reel{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.wk__m{padding-top:.9rem}
+.wk__tl{display:flex;align-items:baseline;justify-content:space-between;gap:1rem}
+.wk__t{font-family:var(--serif);font-weight:700;font-size:clamp(1.02rem,1.9vw,1.24rem)}
+.wk__y{font-family:var(--mono);font-size:.7rem;opacity:.6;margin-left:auto}
+.wk__tags{display:flex;flex-wrap:wrap;gap:.35rem .8rem;margin-top:.5rem;align-items:center}
+.wk__role{font-family:var(--mono);font-size:.7rem;letter-spacing:.05em;opacity:.72}
+.wk__hon{margin-top:.5rem;font-size:.85rem;color:var(--red-l)}
+.glass-l .wk__hon{color:var(--red)}
+.wk__hon::before{content:"◆ ";font-size:.7em}
+.wk__d{margin-top:.4rem;font-size:.86rem;opacity:.72}
+
+/* ===== 观影档案 ===== */
+.diary{text-align:center}
+.diary .num{font-family:var(--disp);font-weight:900;line-height:.86;font-size:clamp(6rem,24vw,15rem);letter-spacing:-.02em;font-variant-numeric:tabular-nums;
+  background:radial-gradient(circle 320px at var(--hx,50%) var(--hy,50%),#2a2118 0%,#5d4f3f 46%,#9d9384 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.diary .lb{font-family:var(--serif);font-weight:600;font-size:clamp(1rem,2vw,1.35rem);margin-top:.3rem;letter-spacing:.16em;color:#2a2118}
+.diary .cp{max-width:46ch;margin:1.2rem auto 0;color:#5a5145;font-size:1rem}
+.diary a.lk{display:inline-block;margin-top:1.2rem;font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--red);border-bottom:1px solid var(--red);padding-bottom:3px}
+
+/* ===== 联系 ===== */
+.contact h2{font-family:var(--serif);font-weight:900;font-size:clamp(2.2rem,6vw,3.8rem);line-height:1.05;color:#fff}
+.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:2.2rem;background:var(--line-d);border:1px solid var(--line-d);border-radius:6px;overflow:hidden}
+.ci{background:rgba(28,24,17,.6);padding:1.3rem 1.4rem;transition:.25s}
+.ci:hover{background:rgba(166,56,44,.92)}
+.ci .k{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--red-l);margin-bottom:.4rem}
+.ci:hover .k{color:#fff}
+.ci .v{font-family:var(--serif);font-weight:700;font-size:1rem;color:#fff}
+.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-top:2.4rem;font-family:var(--mono);font-size:.68rem;color:var(--ash-d);letter-spacing:.04em}
+@media(max-width:640px){.cg{grid-template-columns:1fr}}
+
+/* ===== 灯箱 ===== */
+.lbx{position:fixed;inset:0;z-index:10000;background:rgba(9,7,4,.94);backdrop-filter:blur(10px);display:grid;place-items:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .35s}
+.lbx.on{opacity:1;pointer-events:auto;cursor:zoom-out}
+.lbx img{max-width:min(1200px,94vw);max-height:88vh;object-fit:contain;border-radius:4px}
+
+/* ===== 进场 ===== */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .8s,transform .8s}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.bg i,.hero__img,.grain{animation:none}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="bg"><i class="b1"></i><i class="b2"></i><i class="b3"></i></div>
+<canvas id="fx"></canvas>
+<div class="spot" id="spot"></div>
+<div class="spot-l" id="spotL"></div>
+<div class="vig"></div>
+<div class="grain"></div>
+<div class="prog" id="prog"></div>
+<div class="cur" id="cur"></div>
+<div class="cur-d" id="curd"></div>
+<div class="hud"><span class="rec"></span><b id="hudSc">SC.00</b><span id="hudTc">00:00:00:00</span></div>
+<div class="lbx" id="lbx"><img id="lbxImg" alt=""/></div>
+
+<nav class="nav" id="nav">
+  <a class="brand" href="#top" data-c="lnk">
+    <svg viewBox="0 0 100 100" aria-hidden="true">
+      <g transform="translate(42,40) scale(0.62)" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round" opacity=".5"><polygon points="18,15 34,15 50,84"/><polygon points="82,15 66,15 50,84"/></g>
+      <g fill="currentColor"><polygon points="18,15 34,15 50,84"/><polygon points="82,15 66,15 50,84"/></g>
+    </svg>
+    <span><b>王雨辰</b> <small>VV</small></span>
+  </a>
+  <div class="nav__r">
+    <ul class="nav__links">
+      <li><a href="#about" data-en="About" data-c="lnk">关于</a></li>
+      <li><a href="#ai" data-en="AI Work" data-c="lnk">AI 作品</a></li>
+      <li><a href="#lastmeeting" data-en="The Last Time" data-c="lnk">最后一面</a></li>
+      <li><a href="#works" data-en="Works" data-c="lnk">影像</a></li>
+      <li><a href="#reel" data-en="Reel" data-c="lnk">剪辑</a></li>
+      <li><a href="#contact" data-en="Contact" data-c="lnk">联系</a></li>
+    </ul>
+    <button class="btnlang" id="lang">EN</button>
+    <a class="nav__pdf" id="pfLink" href="王雨辰_作品集.pdf" target="_blank" rel="noopener" data-en="Portfolio" data-c="lnk">作品集</a>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top" data-sc="SC.00">
+  <img class="hero__img" id="heroImg" alt="" fetchpriority="high" decoding="async"/>
+  <div class="hero__scrim"></div>
+  <div class="hero__in wrap">
+    <div class="hero__k"><span class="dot"></span><span data-en="Director · AI Content Creator">影视编导 · AI 内容创作者</span></div>
+    <h1 id="nm">王雨辰</h1>
+    <div class="hero__role" data-en="Filmmaking × AIGC — telling stories with generative tools">影视编导 × AIGC · 用生成式工具，讲有温度的故事</div>
+    <p class="hero__th" data-en="Between the narrative instinct of literature and the practice of AI tools — searching for a new way to tell stories.">在文学的叙事直觉与 AIGC 的工具实践之间，寻找讲故事的新方式。</p>
+    <div class="hero__tags">
+      <span data-en="AI drama / short-film director">AI 漫剧 / 短剧编导</span><span data-en="Short-video director">短视频编导</span><span data-en="Content strategy">内容策划</span><span data-en="Film editing">影视剪辑</span>
+    </div>
+  </div>
+  <div class="scroll-cue"><span data-en="Scroll">向下</span><i></i></div>
+</header>
+
+<!-- ================= SC.01 关于 ================= -->
+<section class="band glass-l about" id="about" data-sc="SC.01">
+  <div class="wrap">
+    <div class="eyebrow rv">SC.01 — 关于 / About</div>
+    <h2 class="about__st rv" data-en="Literature is the draft, image is the language — AI is the new pen.">文学是底稿，影像是语言，<span class="hl">AI 是新的笔</span>。</h2>
+    <div class="about__g">
+      <div class="about__b rv">
+        <p data-en="A literature major (Film &amp; Animation Directing) at Zhejiang University. I run the full AI-drama pipeline alone — script, storyboard, image generation, editing, voicing — and work as an editor and cinematographer on and off campus, including front-line production at Zhejiang Daily · Chao News video center.">浙江大学汉语言文学（影视与动漫编导方向）在读。我从剧本、分镜到生图、剪辑、配音，独立完成 AI 漫剧的全流程创作，也在校内外剧组担任剪辑、摄影，并在浙江日报·潮新闻视频中心参与一线内容制作。</p>
+        <p data-en="Film and books aren't entertainment to me — they're nourishment. When I rewatch something, I'm not following the story any more; I'm looking at its bones: why this emotion lands here, why this turn has force, why the score enters on exactly this frame.">好的书和影视作品对我来说不是消遣，是<b>养料</b>。重看一部电影时，我看的已经不是故事，而是它的骨头——这段情绪为什么在这里出现，这个转折为什么有力量，这首配乐为什么在这一刻进来是对的。</p>
+        <p data-en="1044 films watched isn't a badge. It's a coordinate system: it's why I know a military-training film shouldn't use a rousing patriotic score, and why it should use electronic music instead.">1044 部观影不是一个数字勋章，它是一套坐标系——它让我知道军训片不该用又红又正的旋律，而应该用电子乐。</p>
+      </div>
+      <div class="rv">
+        <div class="facts">
+          <div class="fact"><span class="k">School</span><span class="v">浙江大学 · 汉语言文学（影视与动漫编导）</span></div>
+          <div class="fact"><span class="k">Focus</span><span class="v">影视编导 · <em>AIGC 内容创作</em></span></div>
+          <div class="fact"><span class="k">Now</span><span class="v">浙江日报 · 潮新闻视频中心 实习</span></div>
+          <div class="fact"><span class="k">Honor</span><span class="v">学业优秀标兵 · 三等奖学金</span></div>
+          <div class="fact"><span class="k">Base</span><span class="v">浙江 · 杭州 &nbsp;/&nbsp; CET-4 · CET-6</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 创作观 ================= -->
+<section class="band glass mani" data-sc="SC.01">
+  <div class="wrap">
+    <div class="mani__m rv">Director's Note · 创作观</div>
+    <blockquote class="mani__q rv" data-en="Real stories about real people. Not sentimentality — nerve, tension, something that holds you. In the age of AI, spectacle is cheap; story and humanity are everything.">我想讲基于现实的故事，主角永远是人。不要平铺直叙的矫情，要大胆、有张力、抓得住人——在 AI 时代，特效已不再重要，最重要的始终是<span class="hl">故事</span>与<span class="hl">人性</span>。</blockquote>
+    <div class="mani__by rv">— 王雨辰 · VV</div>
+  </div>
+</section>
+
+<!-- ================= SC.02 核心能力 ================= -->
+<section class="band glass" id="skills" data-sc="SC.02">
+  <div class="wrap">
+    <div class="eyebrow rv">SC.02 — 核心能力 / Skills</div>
+    <h2 class="h-sec rv" style="color:#fff" data-en="From an idea to a finished film.">从一个念头，到一部成片。</h2>
+    <div class="sk__g">
+      <div class="sk glow rv"><div class="n">01 / AIGC</div><h3 data-en="AI Creation">AI 创作</h3><p data-en="Full independent AI-drama pipeline: writing → storyboard → image gen → AI video → editing → voicing; fluent in mainstream image &amp; video tools, prompt engineering and character-consistency control."><b>AI 漫剧全流程独立制作</b>：编剧 → 分镜 → 生图 → AI 视频 → 剪辑 → 配音；熟练 ChatGPT / GPT Image、即梦、可灵等主流工具，掌握提示词工程与角色一致性控制。</p></div>
+      <div class="sk glow rv"><div class="n">02 / Post</div><h3 data-en="Post-production">影视后期</h3><p data-en="Premiere Pro · DaVinci Resolve · Photoshop · Lightroom; editing, color and graphic design end-to-end, driven by rhythm and emotion."><b>Premiere Pro · DaVinci Resolve · Photoshop · Lightroom</b>；视频剪辑、调色与平面设计全流程，擅长用节奏与情绪驱动剪辑。</p></div>
+      <div class="sk glow rv"><div class="n">03 / Story</div><h3 data-en="Content · Narrative">内容 · 叙事</h3><p data-en="Scriptwriting · narrative framework · content integration; WeChat account strategy &amp; operations; a systematic aesthetic built on 1044 films watched."><b>脚本写作 · 叙事框架 · 内容整合</b>；公众号策划与运营；1044 部观影沉淀出的系统影视审美。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SC.03 AI 作品 ================= -->
+<section class="band glass-l ai" id="ai" data-sc="SC.03">
+  <div class="wrap">
+    <div class="eyebrow rv">SC.03 — AI 作品 / 生成式叙事</div>
+    <h2 class="h-sec rv" data-en="Treating 'generation' as a new camera language.">把「生成」当成一种新的镜头语言。</h2>
+    <p class="lede rv" data-en="From script to finished film — running the full AIGC pipeline solo, exploring the edge of AI in interactive narrative and emotional expression.">从剧本到成片，独立跑通 AIGC 创作全流程——探索 AI 在互动叙事与情感表达上的边界。</p>
+    <div class="ai__g">
+      <div class="ai__t rv">
+        <span class="pill pill-red" data-en="AI interactive short · 2025">AI 互动视频短片 · 2025</span>
+        <h3 data-en="Reborn as a Freshman: The Optimal Path the System Never Taught">重生之大一新生：<br/>系统没教我的最优解</h3>
+        <div class="ai__role">导演 · 编剧 · 剪辑 / Director · Writer · Editor</div>
+        <p data-en="Ran the full flow from story and script to AIGC video generation solo, designing a multi-ending interactive structure; wrote real campus pain-points into branching, choosable plotlines.">独立完成从故事策划、剧本到 AIGC 视频生成的全流程，设计多结局互动叙事结构。以「大一新生信息差」为核心命题，把校园真实痛点写成可选择的分支剧情。</p>
+      </div>
+      <div class="rv">
+        <div class="vwrap facade glow" data-bv="BV1fJv6BeEXS" data-src="重生_封面.jpg" data-t="重生之大一新生">
+          <img alt="重生之大一新生"/><span class="play"></span>
+        </div>
+        <a class="bili" href="https://www.bilibili.com/video/BV1fJv6BeEXS/" target="_blank" rel="noopener" data-c="lnk">↗ 在 B站 观看</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 最后一面 ================= -->
+<section class="band glass feat" id="lastmeeting" data-sc="SC.03">
+  <div class="wrap">
+    <div class="feat__h">
+      <div class="rv">
+        <span class="pill pill-live" style="margin-bottom:1rem" data-en="In Production · 2026">制作中 · In Production · 2026</span>
+        <h2 class="feat__t">最后一面</h2>
+        <div class="feat__sub" data-en="AI original animated short · Director / Writer / Full pipeline">AI 原创动画短片 · 导演 / 编剧 / 全流程制作</div>
+      </div>
+      <p class="feat__log rv" data-en="An original animation about 'farewell.' From a single keyframe, rebuilding the light in memory with generative tools — I want to know whether AI can tell a story that needs tears.">一部关于「告别」的原创动画。从一帧关键帧开始，用生成式工具重建记忆里的光——我想知道，AI 能不能讲好一个需要眼泪的故事。</p>
+    </div>
+    <div class="stills rv" id="stills"></div>
+    <div class="pipe rv">
+      <div class="c"><div class="k">生图 / Image</div><div class="v">ChatGPT · GPT Image<small>Midjourney 辅助</small></div></div>
+      <div class="c"><div class="k">视频 / Video</div><div class="v">即梦 · 可灵<small>图生视频 · 首尾帧</small></div></div>
+      <div class="c"><div class="k">声音 / Sound</div><div class="v">配乐 · 配音<small>Score &amp; VO</small></div></div>
+      <div class="c"><div class="k">后期 / Post</div><div class="v">分镜合成 · 剪辑<small>Compositing &amp; Edit</small></div></div>
+    </div>
+    <a class="cta rv" href="https://space.bilibili.com/334158486" target="_blank" rel="noopener" data-en="Follow on Bilibili for the premiere ↗" data-c="lnk">关注 B站 · 等待上线 ↗</a>
+  </div>
+</section>
+
+<!-- ================= SC.04 精选影像 ================= -->
+<section class="band glass-l" id="works" data-sc="SC.04">
+  <div class="wrap">
+    <div class="eyebrow rv">SC.04 — 精选影像 / Selected Works</div>
+    <h2 class="h-sec rv" data-en="Rhythm, image, and the emotion beneath.">节奏、画面，与画面之下的情绪。</h2>
+    <div class="works" id="worksGrid"></div>
+  </div>
+</section>
+
+<!-- ================= SC.05 剪辑 / 混剪 ================= -->
+<section class="band glass" id="reel" data-sc="SC.05">
+  <div class="wrap">
+    <div class="eyebrow rv">SC.05 — 剪辑 / 混剪 / Editing Reel</div>
+    <h2 class="h-sec rv" style="color:#fff" data-en="Cutting to rhythm — restoring the pulse of the moment.">用节奏剪辑，还原现场的心跳。</h2>
+    <div class="works works--reel" id="reelGrid"></div>
+  </div>
+</section>
+
+<!-- ================= SC.06 观影档案 ================= -->
+<section class="band glass-l diary" data-sc="SC.06">
+  <div class="wrap">
+    <div class="eyebrow rv" style="justify-content:center">SC.06 — 观影档案 / Film Diary</div>
+    <div class="num rv" id="counter" data-target="1044">0</div>
+    <div class="lb rv" data-en="films watched · a coordinate system of taste">部观影 · 一套审美坐标系</div>
+    <p class="cp rv" data-en="Cinema, indie, documentary — every film watched is training for the eye and the hand.">院线、独立、纪录片……每一部看过的电影，都是一次对眼睛和手的训练。</p>
+    <a class="lk" href="https://www.douban.com/people/Violet-4/" target="_blank" rel="noopener" data-en="Douban archive ↗" data-c="lnk">豆瓣观影档案 ↗</a>
+  </div>
+</section>
+
+<!-- ================= 联系 ================= -->
+<footer class="band glass contact" id="contact" data-sc="END">
+  <div class="wrap">
+    <div class="eyebrow rv" style="color:var(--red-l)">Contact — 联系</div>
+    <h2 class="rv" data-en="Let's make stories that move.">一起，做点<span class="hl"> 会动的故事</span>。</h2>
+    <div class="cg rv">
+      <a class="ci glow" href="tel:13579731903" data-c="lnk"><div class="k">Phone</div><div class="v">135 7973 1903</div></a>
+      <a class="ci glow" href="mailto:wyc65177971135@gmail.com" data-c="lnk"><div class="k">Email</div><div class="v">wyc65177971135@gmail.com</div></a>
+      <a class="ci glow" href="https://space.bilibili.com/334158486" target="_blank" rel="noopener" data-c="lnk"><div class="k">Bilibili</div><div class="v">B站主页 ↗</div></a>
+      <a class="ci glow" href="https://www.douban.com/people/Violet-4/" target="_blank" rel="noopener" data-c="lnk"><div class="k">Douban</div><div class="v">观影 1044 ↗</div></a>
+      <a class="ci glow" href="王雨辰_作品集.pdf" target="_blank" rel="noopener" data-c="lnk"><div class="k">Portfolio</div><div class="v">完整作品集 PDF ↗</div></a>
+      <a class="ci glow" href="https://github.com/violet0414-wyc" target="_blank" rel="noopener" data-c="lnk"><div class="k">GitHub</div><div class="v">源码 ↗</div></a>
+    </div>
+    <div class="foot"><span>© 2026 王雨辰 · VV · 作品档案</span><span data-en="Designed as a film — Filmmaking · AI Content">Designed as a film — 影视编导 · AI 内容创作</span></div>
+  </div>
+</footer>
+
+<script>
+/* ==================================================================
+   CONFIG —— 要改的都在这里
+   ================================================================== */
+const HERO_IMG = ["最后一面_封面.jpg","最后一面_封面.png","可选插图.jpg","潮汐高燃_封面.jpg"];
+/*  ↑ 首屏背景图。按顺序尝试，第一张能打开就用哪张。想换封面就把想要的文件名放到最前面。 */
+
+const BILI = "https://space.bilibili.com/334158486";
+
+/* 精选影像。kind: "bv"=B站嵌入 / "file"=仓库里的视频文件 */
+const WORKS = [
+  { t:"军训大片《瞬》", en:"“Instant” · Military-training Film", y:"2025",
+    role:"剪辑", roleEn:"Editor", kind:"bv", bv:"BV1McHhzzEFA", cover:"瞬_封面.jpg",
+    hon:"B站播放超前三年同类 · 军训总结大会大屏放映", honEn:"Views beat the past 3 years · screened at the closing ceremony" },
+
+  { t:"迎新宣传片", en:"Freshman Welcome Film", y:"2025",
+    role:"剪辑 · 后期", roleEn:"Editor · Post", kind:"file", file:["yingxin.mp4","迎新宣传片.mp4"], cover:"迎新_封面.jpg",
+    hon:"校级官方发布", honEn:"Officially released by the university" },
+
+  { t:"剧情短片《交错》（一镜到底）", en:"“Interlace” · One-take Short", y:"2025",
+    role:"服装助理", roleEn:"Costume Assistant", kind:"bv", bv:"BV1s7aHzPEhM", cover:"交错_封面.jpg" },
+
+  { t:"纪录片《引擎上的求是魂》", en:"“Spirit on the Engine” · Documentary", y:"2025",
+    role:"剪辑 / 摄影", roleEn:"Editor / DP", kind:"bv", bv:"BV1qoM76iEdz", cover:"引擎_封面.jpg",
+    hon:"「好看浙大」短视频大赛优秀奖", honEn:"‘Beautiful ZJU’ short-video contest · Award" },
+
+  { t:"短视频《紫港叠影》", en:"“Purple Harbour Overlay”", y:"2025",
+    role:"剪辑 / 摄影", roleEn:"Editor / DP", kind:"bv", bv:"BV1ZoM76iER8", cover:"紫港_封面.jpg",
+    hon:"「风采浙大」优秀奖", honEn:"‘Elegance of ZJU’ · Award" },
+
+  { t:"微电影《你忘了我的尸体》", en:"“You Forgot My Body” · Short Film", y:"2024",
+    role:"摄影 / 音乐 / 调色", roleEn:"DP / Music / Color", kind:"bv", bv:"BV1bVME6REQ8", cover:"你忘了_封面.jpg",
+    hon:"部门「潮斯卡」四项奖杯", honEn:"Dept. ‘Chao-scar’ · 4 awards" }
+];
+
+/* 剪辑 / 混剪 */
+const REEL = [
+  { t:"浙江大学 2025 潮汐音乐节 · 高燃混剪", en:"ZJU 2025 Tide Music Festival · Hype Cut", y:"2025",
+    role:"独立剪辑", roleEn:"Solo edit", kind:"bv", bv:"BV1jFUhBeEHH", cover:"潮汐高燃_封面.jpg" },
+  { t:"浙江大学 2025 潮汐音乐节 · 乐队专访 VCR", en:"ZJU 2025 Tide Festival · Band Interview VCR", y:"2025",
+    role:"独立剪辑", roleEn:"Solo edit", kind:"bv", bv:"BV1jFUhBeEpE", cover:"潮汐专访_封面.jpg" },
+  { t:"影视混剪《优雅与力量，邪恶与疯狂》", en:"“Grace &amp; Power, Evil &amp; Madness” · Fan Edit", y:"2025",
+    role:"独立剪辑", roleEn:"Solo edit", kind:"bv", bv:"BV1ZLUkYkEhZ", cover:"优雅与力量_封面.jpg" },
+  { t:"影视混剪《WHY SO SERIOUS》", en:"“WHY SO SERIOUS” · Fan Edit", y:"2025",
+    role:"独立剪辑", roleEn:"Solo edit", kind:"bv", bv:"BV1Dh1yY8ELH", cover:"WHYSOSERIOUS_封面.jpg" }
+];
+
+/* 《最后一面》关键帧 */
+const STILLS = [
+  { src:"shot10.1.png", t:"shot 10.1" },
+  { src:"shot11.3.png", t:"shot 11.3" },
+  { src:"shot13.8.png", t:"shot 13.8" },
+  { src:"参考图终.png",  t:"character ref" }
+];
+
+/* ================== 工具 ================== */
+const $  = (s,p=document)=>p.querySelector(s);
+const $$ = (s,p=document)=>[].slice.call(p.querySelectorAll(s));
+const RM   = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FINE = matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+/* 图片：后台解码完再整张淡入，缺图不会裂 */
+function loadImg(img, list, box){
+  box = box || img.parentElement;
+  const q = (Array.isArray(list)?list:[list]).slice();
+  box.classList.add('skel');
+  (function next(){
+    const s = q.shift();
+    if(!s){ box.classList.remove('skel'); box.classList.add('err'); return; }
+    const p = new Image(); p.decoding = 'async';
+    p.onload  = ()=>{ img.src = s; img.classList.add('ok'); box.classList.remove('skel'); };
+    p.onerror = next;
+    p.src = s;
+  })();
+}
+
+/* ================== 首屏背景图 ================== */
+loadImg($('#heroImg'), HERO_IMG, $('.hero'));
+
+/* ================== 视频：点封面才加载 ================== */
+function mount(box){
+  if(box.dataset.on) return;
+  box.dataset.on = 1;
+  const bv = box.dataset.bv, file = box.dataset.file;
+  let el;
+  if(bv){
+    el = document.createElement('iframe');
+    /* 必须写 https://。B站官方给的 //player… 在本地双击打开时会被当成本地文件，
+       于是报「该文件可能已被移至别处、修改或删除」——这就是之前视频打不开的原因。 */
+    el.src = 'https://player.bilibili.com/player.html?isOutside=true&bvid='+bv+'&p=1&autoplay=1&danmaku=0&high_quality=1';
+    el.setAttribute('scrolling','no'); el.setAttribute('frameborder','no');
+    el.allowFullscreen = true; el.allow = 'autoplay; fullscreen; encrypted-media';
+  }else if(file){
+    el = document.createElement('video');
+    el.controls = true; el.autoplay = true; el.playsInline = true; el.preload = 'auto';
+    file.split('|').forEach(f=>{ const s=document.createElement('source'); s.src=f; s.type='video/mp4'; el.appendChild(s); });
+    el.onerror = ()=>{ box.dataset.on=''; el.remove(); };
+  }else return;
+  box.appendChild(el);
+  const p = $('.play',box), l = $('.lbl',box); if(p) p.remove(); if(l) l.remove();
+  box.classList.remove('facade'); box.removeAttribute('data-c');
+}
+
+/* ================== 渲染作品 ================== */
+function cardHTML(w){
+  const bv   = w.kind==='bv'   ? ' data-bv="'+w.bv+'"' : '';
+  const file = w.kind==='file' ? ' data-file="'+w.file.join('|')+'"' : '';
+  const hon  = w.hon ? '<div class="wk__hon" data-en="'+(w.honEn||'')+'">'+w.hon+'</div>' : '';
+  return '<div class="wk rv">'
+    + '<div class="vwrap facade glow" data-t="'+w.t+'"'+bv+file+'>'
+    +   '<img alt=""/><span class="play"></span>'
+    +   (w.kind==='file' ? '<span class="lbl lbl--muted" data-en="School release · playable here">校方发布 · 站内可播</span>' : '')
+    + '</div>'
+    + '<div class="wk__m"><div class="wk__tl"><span class="wk__t" data-en="'+w.en+'">'+w.t+'</span><span class="wk__y">'+w.y+'</span></div>'
+    + '<div class="wk__tags"><span class="wk__role" data-en="'+w.roleEn+'">'+w.role+'</span></div>'
+    + hon + '</div></div>';
+}
+$('#worksGrid').innerHTML = WORKS.map(cardHTML).join('');
+$('#reelGrid').innerHTML  = REEL.map(cardHTML).join('');
+$('#stills').innerHTML    = STILLS.map(s=>'<div class="still" data-c="lnk"><img alt=""/><span class="t">'+s.t+'</span></div>').join('');
+
+/* 重生（AI 区那张，是写死在 HTML 里的） */
+const aiBox = $('.ai__g .vwrap');
+loadImg($('img',aiBox), aiBox.dataset.src, aiBox);
+aiBox.addEventListener('click', ()=>mount(aiBox));
+/* 精选影像 + 剪辑：各自按容器取，不会串位 */
+$$('#worksGrid .vwrap').forEach((box,i)=>{ loadImg($('img',box), WORKS[i].cover, box); box.addEventListener('click',()=>mount(box)); });
+$$('#reelGrid  .vwrap').forEach((box,i)=>{ loadImg($('img',box), REEL[i].cover,  box); box.addEventListener('click',()=>mount(box)); });
+$$('#stills .still').forEach((d,i)=>{
+  loadImg($('img',d), STILLS[i].src, d);
+  d.addEventListener('click', ()=>{ const s=$('img',d).getAttribute('src'); if(!s) return;
+    $('#lbxImg').src = s; $('#lbx').classList.add('on'); });
+});
+$('#lbx').addEventListener('click', ()=>$('#lbx').classList.remove('on'));
+
+/* ================== 光标 · 体积光 · 浮尘 ================== */
+const spot=$('#spot'), spotL=$('#spotL'), cur=$('#cur'), curd=$('#curd'), nm=$('#nm'), counter=$('#counter');
+let mx=innerWidth/2, my=innerHeight*.45, sx=mx, sy=my, cx=mx, cy=my;
+let nmR = nm.getBoundingClientRect(), cnR = counter.getBoundingClientRect();
+const sync = ()=>{ nmR = nm.getBoundingClientRect(); cnR = counter.getBoundingClientRect(); };
+addEventListener('resize', sync);
+
+/* 封面：悬停缓缓放大；平时朝相反方向缓缓呼吸（JS 逐帧驱动，不用 CSS 动画，避免和悬停冲突） */
+const heroImg=$('#heroImg'), heroBox=$('#top');
+let heroHover=false, heroCur=1, heroT0=performance.now();
+heroBox.addEventListener('pointerenter', ()=>{ heroHover=true; });
+heroBox.addEventListener('pointerleave', ()=>{ heroHover=false; });
+
+let curOn=false;
+addEventListener('pointermove', e=>{
+  mx=e.clientX; my=e.clientY;
+  if(FINE){ curd.style.transform='translate('+mx+'px,'+my+'px)'; curd.style.opacity=1; cur.style.opacity=1;
+            if(RM) cur.style.transform='translate('+mx+'px,'+my+'px)';
+            if(!curOn){ curOn=true; document.documentElement.classList.add('cur-on'); } }
+  /* 名字 / 大数字被光照亮：坐标要相对它们自己的盒子 */
+  nm.style.setProperty('--hx',(mx-nmR.left)+'px');  nm.style.setProperty('--hy',(my-nmR.top)+'px');
+  counter.style.setProperty('--hx',(mx-cnR.left)+'px'); counter.style.setProperty('--hy',(my-cnR.top)+'px');
+  const t = e.target.closest('[data-c]');
+  cur.className = 'cur' + (t ? ' ' + t.dataset.c : '');
+}, {passive:true});
+
+/* 卡片描边光 */
+addEventListener('pointermove', e=>{
+  const c = e.target.closest('.glow'); if(!c) return;
+  const r = c.getBoundingClientRect();
+  c.style.setProperty('--mx',(e.clientX-r.left)+'px');
+  c.style.setProperty('--my',(e.clientY-r.top)+'px');
+}, {passive:true});
+
+const cv=$('#fx'), ctx=cv.getContext('2d');
+let W=0,H=0,DP=Math.min(devicePixelRatio||1,2),dust=[];
+function size(){
+  W=cv.width=innerWidth*DP; H=cv.height=innerHeight*DP;
+  cv.style.width=innerWidth+'px'; cv.style.height=innerHeight+'px';
+  const n = innerWidth<700 ? 40 : 90;
+  dust = Array.from({length:n},()=>({
+    x:Math.random()*W, y:Math.random()*H, z:.25+Math.random()*.75,
+    r:(Math.random()*1.6+.4)*DP, vx:(Math.random()-.5)*.10*DP, vy:(-Math.random()*.15-.03)*DP,
+    a:.14+Math.random()*.4 }));
+}
+size(); addEventListener('resize', size);
+
+function frame(){
+  sx+=(mx-sx)*.09; sy+=(my-sy)*.09;
+  cx+=(mx-cx)*.18; cy+=(my-cy)*.18;
+  spot.style.transform ='translate('+sx+'px,'+sy+'px)';
+  spotL.style.transform='translate('+sx+'px,'+sy+'px)';
+  cur.style.transform ='translate('+cx+'px,'+cy+'px)';
+
+  /* 封面呼吸：平时 sin 波缓缓一涨一缩；悬停时松开波形、锁定放大一个更明显的尺寸——方向相反 */
+  const breathe = 1 + Math.sin((performance.now()-heroT0)/9000)*0.035;
+  const target = heroHover ? 1.09 : breathe;
+  heroCur += (target-heroCur) * (heroHover ? .06 : .025);
+  heroImg.style.transform = 'scale('+heroCur.toFixed(4)+')';
+
+  ctx.clearRect(0,0,W,H);
+  const lx=sx*DP, ly=sy*DP;
+  for(const p of dust){
+    p.x+=p.vx*p.z; p.y+=p.vy*p.z;
+    if(p.y<-12){ p.y=H+12; p.x=Math.random()*W; }
+    if(p.x<-12) p.x=W+12; if(p.x>W+12) p.x=-12;
+    const px=p.x+(lx-W/2)*.014*p.z, py=p.y+(ly-H/2)*.014*p.z;
+    const d=Math.hypot(px-lx,py-ly), g=Math.max(0,1-d/(330*DP));   /* 靠近光就变亮 */
+    ctx.beginPath(); ctx.arc(px,py,p.r*(1+g*1.1),0,6.283);
+    ctx.fillStyle='rgba('+(232+g*23)+','+(214+g*30)+','+(190+g*40)+','+(p.a*(.20+g*1.05))+')';
+    ctx.fill();
+  }
+  requestAnimationFrame(frame);
+}
+if(!RM) requestAnimationFrame(frame);
+
+/* ================== 滚动：进度 / 时间码 / 场次 / 进场 ================== */
+const nav=$('#nav'), prog=$('#prog'), hudTc=$('#hudTc'), hudSc=$('#hudSc');
+const secs=$$('[data-sc]');
+function onScroll(){
+  const y=scrollY, max=document.body.scrollHeight-innerHeight, p=max>0?y/max:0;
+  nav.classList.toggle('scrolled', y>40);
+  prog.style.transform='scaleX('+p+')';
+  const tt=p*120, f=Math.floor(tt*24)%24, s=Math.floor(tt)%60, m=Math.floor(tt/60)%60;
+  hudTc.textContent='00:'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')+':'+String(f).padStart(2,'0');
+  for(const el of secs){
+    const r=el.getBoundingClientRect();
+    if(r.top<=innerHeight*.42 && r.bottom>innerHeight*.42){
+      hudSc.textContent=el.dataset.sc;
+      if(!RM){
+        const light = el.classList.contains('glass-l');
+        spot.style.opacity  = light ? 0 : 1;
+        spotL.style.opacity = light ? 1 : 0;
+      }
+      break;
+    }
+  }
+  sync();
+}
+addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+const rv=$$('.rv');
+if(RM || !('IntersectionObserver' in window)){ rv.forEach(e=>e.classList.add('in')); }
+else{
+  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }}),
+    {threshold:.1, rootMargin:'0px 0px -6% 0px'});
+  rv.forEach(e=>io.observe(e));
+}
+
+/* ================== 1044 数字滚动 ================== */
+(function(){
+  const t=parseInt(counter.dataset.target,10); let done=false;
+  function run(){ if(done) return; done=true;
+    if(RM){ counter.textContent=t; return; }
+    const dur=1800; let s0=null;
+    const ease=x=>1-Math.pow(1-x,3);
+    function step(ts){ if(!s0) s0=ts; const p=Math.min((ts-s0)/dur,1);
+      counter.textContent=Math.round(ease(p)*t); if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+  if('IntersectionObserver' in window){
+    const co=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ run(); co.disconnect(); }}),{threshold:.4});
+    co.observe(counter);
+  } else run();
+})();
+
+/* ================== 中英切换（点按钮 或 按 L） ================== */
+(function(){
+  const btn=$('#lang'), els=$$('[data-en]'), zh=els.map(e=>e.innerHTML);
+  let en = new URLSearchParams(location.search).get('lang')==='en';
+  function apply(){
+    els.forEach((e,i)=>{ e.innerHTML = en ? e.getAttribute('data-en') : zh[i]; });
+    btn.textContent = en ? '中文' : 'EN';
+    document.documentElement.lang = en ? 'en' : 'zh-CN';
+    $('#pfLink').href = '王雨辰_作品集.pdf';
+    const u=new URL(location); en ? u.searchParams.set('lang','en') : u.searchParams.delete('lang');
+    history.replaceState(null,'',u);
+  }
+  btn.addEventListener('click', ()=>{ en=!en; apply(); });
+  addEventListener('keydown', e=>{
+    if(e.key==='Escape') $('#lbx').classList.remove('on');
+    if(e.key.toLowerCase()==='l' && !e.metaKey && !e.ctrlKey && !e.altKey &&
+       !/input|textarea/i.test(document.activeElement.tagName)){ en=!en; apply(); }
+  });
+  if(en) apply();
+})();
+</script>
+</body>
+</html>
