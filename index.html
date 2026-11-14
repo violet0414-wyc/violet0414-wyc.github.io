@@ -140,9 +140,14 @@ animation:gr .8s steps(3) infinite}
 
 /* ===== ABOUT ===== */
 .about__st{font-family:var(--serif);font-weight:700;line-height:1.4;font-size:clamp(1.5rem,3.6vw,2.5rem);max-width:20ch}
-.about__g{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,5vw,4rem);margin-top:clamp(2.2rem,5vw,3.2rem);align-items:start}
+.about__g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(2rem,5vw,4rem);margin-top:clamp(2.2rem,5vw,3.2rem);align-items:start}
 .about__g>*>:first-child{margin-top:0}
-.about__b p{font-size:clamp(1rem,1.4vw,1.08rem);color:#3a3226;max-width:52ch}.about__b p+p{margin-top:1rem}
+.about__b{min-width:0;border-top:1px solid var(--line-l);padding-top:1.25rem}
+.about__label{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;color:var(--red);margin-bottom:1.4rem}
+.about .facts{margin-top:1.8rem}
+.about .fact{align-items:start}
+.about .fact .v{font-family:var(--sans);font-size:.85rem;font-weight:500;max-width:28ch;line-height:1.7}
+.about__b p{font-size:clamp(1rem,1.4vw,1.08rem);color:#3a3226;max-width:52ch}.about__b p+p{margin-top:1.5rem}
 .facts{border-top:1px solid var(--line-l)}
 .fact{display:flex;justify-content:space-between;align-items:baseline;gap:1.2rem;padding:.9rem 0;border-bottom:1px solid var(--line-l)}
 .fact .k{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ash);white-space:nowrap}
@@ -348,16 +353,18 @@ animation:gr .8s steps(3) infinite}
     <h2 class="about__st rv" data-en="Literature is the draft, image is the language — AI is the new pen.">文学是底稿，影像是语言，<span class="hl">AI 是新的笔</span>。</h2>
     <div class="about__g">
       <div class="about__b rv">
+        <div class="about__label" data-en="01 / Practice">01 / 创作实践</div>
         <p data-en="A literature major (Film &amp; Animation Directing) at Zhejiang University. I run the full AI-drama pipeline alone — script, storyboard, image generation, editing, voicing — and work as an editor and cinematographer on and off campus, with previous internship experience in front-line production at Zhejiang Daily · Chao News video center.">浙江大学汉语言文学（影视与动漫编导方向）在读。我从剧本、分镜到生图、剪辑、配音，独立完成 AI 漫剧的全流程创作，也在校内外剧组担任剪辑、摄影，曾在浙江日报·潮新闻视频中心实习，参与一线内容制作。</p>
-        <p data-en="Film and books aren't entertainment to me — they're nourishment. When I rewatch something, I'm not following the story any more; I'm looking at its bones: why this emotion lands here, why this turn has force, why the score enters on exactly this frame.">好的书和影视作品对我来说不是消遣，是<b>养料</b>。重看一部电影时，我看的已经不是故事，而是它的骨头——这段情绪为什么在这里出现，这个转折为什么有力量，这首配乐为什么在这一刻进来是对的。</p>
-        <p data-en="1060+ films watched isn't a badge. It's a coordinate system: it's why I know a military-training film shouldn't use a rousing patriotic score, and why it should use electronic music instead.">1060+ 部观影不是一个数字勋章，它是一套坐标系——它让我知道军训片不该用又红又正的旋律，而应该用电子乐。</p>
-      </div>
-      <div class="rv">
         <div class="facts">
           <div class="fact"><span class="k">School</span><span class="v">浙江大学 · 汉语言文学（影视与动漫编导）</span></div>
           <div class="fact"><span class="k">Focus</span><span class="v">影视编导 · <em>AIGC 内容创作</em></span></div>
           <div class="fact"><span class="k">Base</span><span class="v">浙江 · 杭州 &nbsp;/&nbsp; CET-4 · CET-6</span></div>
         </div>
+      </div>
+      <div class="about__b rv">
+        <div class="about__label" data-en="02 / Perspective">02 / 审美与判断</div>
+        <p data-en="Film and books aren't entertainment to me — they're nourishment. When I rewatch something, I'm not following the story any more; I'm looking at its bones: why this emotion lands here, why this turn has force, why the score enters on exactly this frame.">好的书和影视作品对我来说不是消遣，是<b>养料</b>。重看一部电影时，我看的已经不是故事，而是它的骨头——这段情绪为什么在这里出现，这个转折为什么有力量，这首配乐为什么在这一刻进来是对的。</p>
+        <p data-en="1060+ films watched isn't a badge. It's a coordinate system: it's why I know a military-training film shouldn't use a rousing patriotic score, and why it should use electronic music instead.">1060+ 部观影不是一个数字勋章，它是一套坐标系——它让我知道军训片不该用又红又正的旋律，而应该用电子乐。</p>
       </div>
     </div>
   </div>
