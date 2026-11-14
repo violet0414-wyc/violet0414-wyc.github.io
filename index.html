@@ -272,8 +272,9 @@ animation:gr .8s steps(3) infinite}
 .lbx img{max-width:min(1200px,94vw);max-height:88vh;object-fit:contain;border-radius:4px}
 
 /* ===== 进场 ===== */
-.rv{opacity:0;transform:translateY(22px);transition:opacity .8s,transform .8s}
-.rv.in{opacity:1;transform:none}
+.rv{opacity:1;transform:none;transition:opacity .8s,transform .8s}
+.reveal-ready .rv{opacity:0;transform:translateY(22px)}
+.reveal-ready .rv.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.bg i,.hero__img,.grain{animation:none}.rv{opacity:1;transform:none}}
 
 /* Broad capability groups, with the latest finished film given room to breathe. */
@@ -621,8 +622,8 @@ aiBox.addEventListener('click', ()=>mount(aiBox));
 /* Each category keeps its own ordered projects and poster bindings. */
 $$('#worksGrid .vwrap').forEach((box,i)=>{ loadImg($('img',box), POST_WORKS[i].cover, box); box.addEventListener('click',()=>mount(box)); });
 $$('#reelGrid  .vwrap').forEach((box,i)=>{ loadImg($('img',box), FILM_WORKS[i].cover,  box); box.addEventListener('click',()=>mount(box)); });
-$('#worksGrid .vwrap, #reelGrid .vwrap').forEach(box=>box.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();mount(box);}}));
-$('#stills .still').forEach((d,i)=>{
+$$('#worksGrid .vwrap, #reelGrid .vwrap').forEach(box=>box.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();mount(box);}}));
+$$('#stills .still').forEach((d,i)=>{
   loadImg($('img',d), STILLS[i].src, d);
   d.addEventListener('click', ()=>{ const s=$('img',d).getAttribute('src'); if(!s) return;
     $('#lbxImg').src = s; $('#lbx').classList.add('on'); });
@@ -736,6 +737,7 @@ else{
   const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }}),
     {threshold:.1, rootMargin:'0px 0px -6% 0px'});
   rv.forEach(e=>io.observe(e));
+  document.documentElement.classList.add('reveal-ready');
 }
 
 /* ================== 1060+ 数字滚动 ================== */
