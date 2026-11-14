@@ -275,6 +275,17 @@ animation:gr .8s steps(3) infinite}
 .rv{opacity:0;transform:translateY(22px);transition:opacity .8s,transform .8s}
 .rv.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.bg i,.hero__img,.grain{animation:none}.rv{opacity:1;transform:none}}
+
+/* Broad capability groups, with the latest finished film given room to breathe. */
+.skill-link{display:inline-block;margin-top:1.3rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--red-l);border-bottom:1px solid rgba(208,106,90,.4);padding-bottom:.25rem}
+.works,.works--reel{grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(2rem,4vw,3.5rem) clamp(1.5rem,3vw,2.5rem)}
+.wk{min-width:0}.wk--featured{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:clamp(1.5rem,3vw,3rem);align-items:center;padding-bottom:clamp(1.5rem,3vw,3rem);border-bottom:1px solid var(--line-l)}
+.wk--featured .wk__m{margin:0}.wk--featured .wk__tl{display:block}.wk--featured .wk__t{font-size:clamp(1.35rem,2.5vw,2rem);line-height:1.45}.wk--featured .wk__y{display:block;margin-top:.8rem}
+.wk__note{margin-top:.85rem;color:var(--ash);font-size:.9rem;line-height:1.8}.wk__tool{display:block;margin-top:.7rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.05em;color:var(--red)}
+.latest{display:block;margin-bottom:.9rem;font-family:var(--mono);font-size:.65rem;letter-spacing:.18em;color:var(--red)}
+.vwrap:focus-visible{outline:2px solid var(--red-l);outline-offset:5px}
+@media(max-width:700px){.works,.works--reel{grid-template-columns:1fr}.wk--featured{display:block}.wk--featured .wk__m{margin-top:1.2rem}}
+
 </style>
 </head>
 <body>
@@ -336,16 +347,14 @@ animation:gr .8s steps(3) infinite}
     <h2 class="about__st rv" data-en="Literature is the draft, image is the language — AI is the new pen.">文学是底稿，影像是语言，<span class="hl">AI 是新的笔</span>。</h2>
     <div class="about__g">
       <div class="about__b rv">
-        <p data-en="A literature major (Film &amp; Animation Directing) at Zhejiang University. I run the full AI-drama pipeline alone — script, storyboard, image generation, editing, voicing — and work as an editor and cinematographer on and off campus, including front-line production at Zhejiang Daily · Chao News video center.">浙江大学汉语言文学（影视与动漫编导方向）在读。我从剧本、分镜到生图、剪辑、配音，独立完成 AI 漫剧的全流程创作，也在校内外剧组担任剪辑、摄影，并在浙江日报·潮新闻视频中心参与一线内容制作。</p>
+        <p data-en="A literature major (Film &amp; Animation Directing) at Zhejiang University. I run the full AI-drama pipeline alone — script, storyboard, image generation, editing, voicing — and work as an editor and cinematographer on and off campus, with previous internship experience in front-line production at Zhejiang Daily · Chao News video center.">浙江大学汉语言文学（影视与动漫编导方向）在读。我从剧本、分镜到生图、剪辑、配音，独立完成 AI 漫剧的全流程创作，也在校内外剧组担任剪辑、摄影，曾在浙江日报·潮新闻视频中心实习，参与一线内容制作。</p>
         <p data-en="Film and books aren't entertainment to me — they're nourishment. When I rewatch something, I'm not following the story any more; I'm looking at its bones: why this emotion lands here, why this turn has force, why the score enters on exactly this frame.">好的书和影视作品对我来说不是消遣，是<b>养料</b>。重看一部电影时，我看的已经不是故事，而是它的骨头——这段情绪为什么在这里出现，这个转折为什么有力量，这首配乐为什么在这一刻进来是对的。</p>
-        <p data-en="1050+ films watched isn't a badge. It's a coordinate system: it's why I know a military-training film shouldn't use a rousing patriotic score, and why it should use electronic music instead.">1050+ 部观影不是一个数字勋章，它是一套坐标系——它让我知道军训片不该用又红又正的旋律，而应该用电子乐。</p>
+        <p data-en="1060+ films watched isn't a badge. It's a coordinate system: it's why I know a military-training film shouldn't use a rousing patriotic score, and why it should use electronic music instead.">1060+ 部观影不是一个数字勋章，它是一套坐标系——它让我知道军训片不该用又红又正的旋律，而应该用电子乐。</p>
       </div>
       <div class="rv">
         <div class="facts">
           <div class="fact"><span class="k">School</span><span class="v">浙江大学 · 汉语言文学（影视与动漫编导）</span></div>
           <div class="fact"><span class="k">Focus</span><span class="v">影视编导 · <em>AIGC 内容创作</em></span></div>
-          <div class="fact"><span class="k">Now</span><span class="v">浙江日报 · 潮新闻视频中心 实习</span></div>
-          <div class="fact"><span class="k">Honor</span><span class="v">学业优秀标兵 · 三等奖学金</span></div>
           <div class="fact"><span class="k">Base</span><span class="v">浙江 · 杭州 &nbsp;/&nbsp; CET-4 · CET-6</span></div>
         </div>
       </div>
@@ -368,9 +377,9 @@ animation:gr .8s steps(3) infinite}
     <div class="eyebrow rv">SC.02 — 核心能力 / Skills</div>
     <h2 class="h-sec rv" style="color:#fff" data-en="From an idea to a finished film.">从一个念头，到一部成片。</h2>
     <div class="sk__g">
-      <div class="sk glow rv"><div class="n">01 / AIGC</div><h3 data-en="AI Creation">AI 创作</h3><p data-en="Full independent AI-drama pipeline: writing → storyboard → image gen → AI video → editing → voicing; fluent in mainstream image &amp; video tools and Suno, including prompt engineering, character-consistency control and AI-assisted BGM production."><b>AI 漫剧全流程独立制作</b>：编剧 → 分镜 → 生图 → AI 视频 → 剪辑 → 配音；熟练 ChatGPT / GPT Image、即梦、可灵、Suno 等主流工具，掌握提示词工程、角色一致性控制与 AI BGM 生成。</p></div>
-      <div class="sk glow rv"><div class="n">02 / Post</div><h3 data-en="Post-production">影视后期</h3><p data-en="Premiere Pro · DaVinci Resolve · Photoshop · Lightroom; editing, color and graphic design end-to-end, driven by rhythm and emotion."><b>Premiere Pro · DaVinci Resolve · Photoshop · Lightroom</b>；视频剪辑、调色与平面设计全流程，擅长用节奏与情绪驱动剪辑。</p></div>
-      <div class="sk glow rv"><div class="n">03 / Story</div><h3 data-en="Content · Narrative">内容 · 叙事</h3><p data-en="Scriptwriting · narrative framework · content integration; WeChat account strategy &amp; operations; a systematic aesthetic built on 1050+ films watched."><b>脚本写作 · 叙事框架 · 内容整合</b>；公众号策划与运营；1050+ 部观影沉淀出的系统影视审美。</p></div>
+      <div class="sk glow rv"><div class="n">01 / AIGC</div><h3 data-en="AI Creation">AI 创作</h3><p data-en="Full independent AI-drama pipeline: writing → storyboard → image gen → AI video → editing → voicing; fluent in mainstream image &amp; video tools and Suno, including prompt engineering, character-consistency control and AI-assisted BGM production."><b>AI 漫剧全流程独立制作</b>：编剧 → 分镜 → 生图 → AI 视频 → 剪辑 → 配音；熟练 ChatGPT / GPT Image、即梦、可灵、Suno 等主流工具，掌握提示词工程、角色一致性控制与 AI BGM 生成。</p><a class="skill-link" href="#ai" data-en="Explore selected work ↗" data-c="lnk">查看对应作品 ↗</a></div>
+      <div class="sk glow rv"><div class="n">02 / Post</div><h3 data-en="Post-production">影视后期</h3><p data-en="Premiere Pro · DaVinci Resolve · Photoshop · Lightroom; editing, color and graphic design end-to-end, driven by rhythm and emotion."><b>Premiere Pro · DaVinci Resolve · Photoshop · Lightroom</b>；视频剪辑、调色与平面设计全流程，擅长用节奏与情绪驱动剪辑。</p><a class="skill-link" href="#works" data-en="Explore selected work ↗" data-c="lnk">查看对应作品 ↗</a></div>
+      <div class="sk glow rv"><div class="n">03 / Filmmaking</div><h3 data-en="Filmmaking · Narrative">影像 · 叙事</h3><p data-en="Scriptwriting, story structure, cinematography and on-set collaboration; bringing narrative choices to finished images, informed by 1060+ films watched."><b>策划编剧 · 摄影 · 剧组协作</b>；从叙事构思到现场执行，以 1060+ 部观影积累连接审美判断与创作实践。</p><a class="skill-link" href="#reel" data-en="Explore selected work ↗" data-c="lnk">查看对应作品 ↗</a></div>
     </div>
   </div>
 </section>
@@ -378,7 +387,7 @@ animation:gr .8s steps(3) infinite}
 <!-- ================= SC.03 AI 作品 ================= -->
 <section class="band glass-l ai" id="ai" data-sc="SC.03">
   <div class="wrap">
-    <div class="eyebrow rv">SC.03 — AI 作品 / 生成式叙事</div>
+    <div class="eyebrow rv">01 / AI 叙事 · AI Storytelling</div>
     <h2 class="h-sec rv" data-en="Treating 'generation' as a new camera language.">把「生成」当成一种新的镜头语言。</h2>
     <p class="lede rv" data-en="From script to finished film — running the full AIGC pipeline solo, exploring the edge of AI in interactive narrative and emotional expression.">从剧本到成片，独立跑通 AIGC 创作全流程——探索 AI 在互动叙事与情感表达上的边界。</p>
     <div class="ai__g">
@@ -423,8 +432,9 @@ animation:gr .8s steps(3) infinite}
 <!-- ================= SC.04 精选影像 ================= -->
 <section class="band glass-l" id="works" data-sc="SC.04">
   <div class="wrap">
-    <div class="eyebrow rv">SC.04 — 精选影像 / Selected Works</div>
-    <h2 class="h-sec rv" data-en="Rhythm, image, and the emotion beneath.">节奏、画面，与画面之下的情绪。</h2>
+    <div class="eyebrow rv">02 / 剪辑与后期 · Editing &amp; Post</div>
+    <h2 class="h-sec rv" data-en="Shaping emotion through rhythm, sound and color.">以节奏、声音与色彩，塑造情绪。</h2>
+    <p class="lede rv" data-en="Promotional films, live events and film edits — decisions about pacing, music and color, carried through to the finished cut.">宣传片、现场影像与影视混剪——让剪辑的节奏、音乐的推进和色彩的情绪，落在每一部成片里。</p>
     <div class="works" id="worksGrid"></div>
   </div>
 </section>
@@ -432,8 +442,9 @@ animation:gr .8s steps(3) infinite}
 <!-- ================= SC.05 剪辑 / 混剪 ================= -->
 <section class="band glass" id="reel" data-sc="SC.05">
   <div class="wrap">
-    <div class="eyebrow rv">SC.05 — 剪辑 / 混剪 / Editing Reel</div>
-    <h2 class="h-sec rv" style="color:#fff" data-en="Cutting to rhythm — restoring the pulse of the moment.">用节奏剪辑，还原现场的心跳。</h2>
+    <div class="eyebrow rv">03 / 影像创作 · Filmmaking</div>
+    <h2 class="h-sec rv" style="color:#fff" data-en="From story to set, from observation to image.">从故事到现场，让想法成为影像。</h2>
+    <p class="lede rv" data-en="Documentary, short film and campus storytelling — individual responsibilities are credited on each project.">纪录、剧情与校园叙事——在不同创作现场承担策划、摄影、音乐或剧组协作，让想法经得起执行。</p>
     <div class="works works--reel" id="reelGrid"></div>
   </div>
 </section>
@@ -442,7 +453,7 @@ animation:gr .8s steps(3) infinite}
 <section class="band glass-l diary" data-sc="SC.06">
   <div class="wrap">
     <div class="eyebrow rv" style="justify-content:center">SC.06 — 观影档案 / Film Diary</div>
-    <div class="num rv" id="counter" data-target="1050">0</div>
+    <div class="num rv" id="counter" data-target="1060">0</div>
     <div class="lb rv" data-en="films watched · a coordinate system of taste">部观影 · 一套审美坐标系</div>
     <p class="cp rv" data-en="Cinema, indie, documentary — every film watched is training for the eye and the hand.">院线、独立、纪录片……每一部看过的电影，都是一次对眼睛和手的训练。</p>
     <a class="lk" href="https://www.douban.com/people/Violet-4/" target="_blank" rel="noopener" data-en="Douban archive ↗" data-c="lnk">豆瓣观影档案 ↗</a>
@@ -458,7 +469,7 @@ animation:gr .8s steps(3) infinite}
       <a class="ci glow" href="tel:13579731903" data-c="lnk"><div class="k">Phone</div><div class="v">135 7973 1903</div></a>
       <a class="ci glow" href="mailto:wyc65177971135@gmail.com" data-c="lnk"><div class="k">Email</div><div class="v">wyc65177971135@gmail.com</div></a>
       <a class="ci glow" href="https://space.bilibili.com/334158486" target="_blank" rel="noopener" data-c="lnk"><div class="k">Bilibili</div><div class="v">B站主页 ↗</div></a>
-      <a class="ci glow" href="https://www.douban.com/people/Violet-4/" target="_blank" rel="noopener" data-c="lnk"><div class="k">Douban</div><div class="v">观影 1050+ ↗</div></a>
+      <a class="ci glow" href="https://www.douban.com/people/Violet-4/" target="_blank" rel="noopener" data-c="lnk"><div class="k">Douban</div><div class="v">观影 1060+ ↗</div></a>
       <a class="ci glow" href="王雨辰_作品集.html" target="_blank" rel="noopener" data-c="lnk"><div class="k">Portfolio</div><div class="v">完整作品集 ↗</div></a>
       <a class="ci glow" href="https://github.com/violet0414-wyc" target="_blank" rel="noopener" data-c="lnk"><div class="k">GitHub</div><div class="v">源码 ↗</div></a>
     </div>
@@ -516,6 +527,16 @@ const REEL = [
   { t:"影视混剪《WHY SO SERIOUS》", en:"“WHY SO SERIOUS” · Fan Edit", y:"2025",
     role:"独立剪辑", roleEn:"Solo edit", kind:"bv", bv:"BV1Dh1yY8ELH", cover:"WHYSOSERIOUS_封面.jpg" }
 ];
+
+
+const LAUNCH = {
+  t:"启真车队 · 新车发布会宣传片", en:"Qizhen Racing · New Car Launch Film", y:"2026",
+  role:"剪辑 / 后期 / BGM / 调色", roleEn:"Editing / Post / BGM / Color grading",
+  kind:"file", file:["qizhen-launch-2026.mp4"], cover:"qizhen-launch-cover.jpg", featured:true,
+  tool:"DaVinci Resolve", note:"以剪辑组织速度感，用 BGM 与调色统一成片的节奏和视觉气质。", noteEn:"Pacing, BGM and color brought together in the finished film."
+};
+const POST_WORKS = [LAUNCH, WORKS[1], WORKS[2], ...REEL];
+const FILM_WORKS = [WORKS[0], WORKS[4], WORKS[5], WORKS[6], WORKS[3]];
 
 /* 《最后一面》关键帧 */
 const STILLS = [
@@ -578,27 +599,30 @@ function cardHTML(w){
   const bv   = w.kind==='bv'   ? ' data-bv="'+w.bv+'"' : '';
   const file = w.kind==='file' ? ' data-file="'+w.file.join('|')+'"' : '';
   const hon  = w.hon ? '<div class="wk__hon" data-en="'+(w.honEn||'')+'">'+w.hon+'</div>' : '';
-  return '<div class="wk rv">'
-    + '<div class="vwrap facade glow" data-t="'+w.t+'"'+bv+file+'>'
+  return '<div class="wk rv'+(w.featured?' wk--featured':'')+'">'
+    + '<div class="vwrap facade glow" role="button" tabindex="0" aria-label="播放 '+w.t+'" data-t="'+w.t+'"'+bv+file+'>'
     +   '<img alt=""'+(w.fit==='contain'?' class="fit-contain"':'')+'/><span class="play"></span>'
-    +   (w.kind==='file' ? '<span class="lbl lbl--muted" data-en="School release · playable here">校方发布 · 站内可播</span>' : '')
+    +   (w.kind==='file' ? '<span class="lbl lbl--muted" data-en="Play full film">点击播放成片</span>' : '')
     + '</div>'
-    + '<div class="wk__m"><div class="wk__tl"><span class="wk__t" data-en="'+w.en+'">'+w.t+'</span><span class="wk__y">'+w.y+'</span></div>'
+    + '<div class="wk__m">'+(w.featured?'<span class="latest" data-en="LATEST WORK">最新作品 / LATEST WORK</span>':'')+'<div class="wk__tl"><span class="wk__t" data-en="'+w.en+'">'+w.t+'</span><span class="wk__y">'+w.y+'</span></div>'
     + '<div class="wk__tags"><span class="wk__role" data-en="'+w.roleEn+'">'+w.role+'</span></div>'
+    + (w.tool?'<span class="wk__tool">'+w.tool+'</span>':'')
+    + (w.note?'<p class="wk__note" data-en="'+w.noteEn+'">'+w.note+'</p>':'')
     + hon + '</div></div>';
 }
-$('#worksGrid').innerHTML = WORKS.map(cardHTML).join('');
-$('#reelGrid').innerHTML  = REEL.map(cardHTML).join('');
+$('#worksGrid').innerHTML = POST_WORKS.map(cardHTML).join('');
+$('#reelGrid').innerHTML  = FILM_WORKS.map(cardHTML).join('');
 $('#stills').innerHTML    = STILLS.map(s=>'<div class="still" data-c="lnk"><img alt=""/><span class="t">'+s.t+'</span></div>').join('');
 
 /* 重生（AI 区那张，是写死在 HTML 里的） */
 const aiBox = $('.ai__g .vwrap');
 loadImg($('img',aiBox), aiBox.dataset.src, aiBox);
 aiBox.addEventListener('click', ()=>mount(aiBox));
-/* 精选影像 + 剪辑：各自按容器取，不会串位 */
-$$('#worksGrid .vwrap').forEach((box,i)=>{ loadImg($('img',box), WORKS[i].cover, box); box.addEventListener('click',()=>mount(box)); });
-$$('#reelGrid  .vwrap').forEach((box,i)=>{ loadImg($('img',box), REEL[i].cover,  box); box.addEventListener('click',()=>mount(box)); });
-$$('#stills .still').forEach((d,i)=>{
+/* Each category keeps its own ordered projects and poster bindings. */
+$$('#worksGrid .vwrap').forEach((box,i)=>{ loadImg($('img',box), POST_WORKS[i].cover, box); box.addEventListener('click',()=>mount(box)); });
+$$('#reelGrid  .vwrap').forEach((box,i)=>{ loadImg($('img',box), FILM_WORKS[i].cover,  box); box.addEventListener('click',()=>mount(box)); });
+$('#worksGrid .vwrap, #reelGrid .vwrap').forEach(box=>box.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();mount(box);}}));
+$('#stills .still').forEach((d,i)=>{
   loadImg($('img',d), STILLS[i].src, d);
   d.addEventListener('click', ()=>{ const s=$('img',d).getAttribute('src'); if(!s) return;
     $('#lbxImg').src = s; $('#lbx').classList.add('on'); });
@@ -714,7 +738,7 @@ else{
   rv.forEach(e=>io.observe(e));
 }
 
-/* ================== 1050+ 数字滚动 ================== */
+/* ================== 1060+ 数字滚动 ================== */
 (function(){
   const t=parseInt(counter.dataset.target,10); let done=false;
   function run(){ if(done) return; done=true;
